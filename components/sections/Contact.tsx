@@ -66,7 +66,7 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-6"
         >
-          // GET IN TOUCH
+          {'// GET IN TOUCH'}
         </motion.p>
 
         <GlitchHeading text="Let's Talk" inView={inView} delay={0.1} center />

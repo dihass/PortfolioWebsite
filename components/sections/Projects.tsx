@@ -220,7 +220,7 @@ export default function Projects() {
             transition={{ duration: 0.5 }}
             className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
           >
-            // SELECTED WORK
+            {'// SELECTED WORK'}
           </motion.p>
           <GlitchHeading text="Shipped" subtitle="作品" inView={inView} delay={0.1} />
         </div>

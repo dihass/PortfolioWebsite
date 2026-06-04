@@ -74,7 +74,7 @@ export default function Skills() {
             className="flex items-center gap-3 mb-3"
           >
             <p className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase">
-              // TECHNICAL STACK
+              {'// TECHNICAL STACK'}
             </p>
             <motion.span
               className="font-mono text-[8px] text-[#00ff88]/50 tracking-[0.15em] uppercase"

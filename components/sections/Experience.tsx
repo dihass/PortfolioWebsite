@@ -49,7 +49,7 @@ export default function Experience() {
             transition={{ duration: 0.5 }}
             className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
           >
-            // BACKGROUND
+            {'// BACKGROUND'}
           </motion.p>
           <GlitchHeading text="Journey" subtitle="経歴" inView={inView} delay={0.1} />
         </div>
