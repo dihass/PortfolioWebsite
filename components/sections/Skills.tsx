@@ -46,7 +46,7 @@ function SkillBadge({ name, icon: Icon, delay }: { name: string; icon: React.Com
     <motion.div
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4, boxShadow: "0 0 20px rgba(0,200,255,0.2)", borderColor: "rgba(0,200,255,0.4)" }}
       className="flex items-center gap-2 px-4 py-2.5 bg-[#090f1e] border border-[#162035] rounded-sm cursor-default transition-colors duration-200"
@@ -69,7 +69,7 @@ export default function Skills() {
         <div className="mb-16">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 mb-3"
           >
@@ -94,7 +94,7 @@ export default function Skills() {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: gi * 0.08 }}
                 className="flex items-center gap-3 mb-6"
               >
@@ -104,7 +104,7 @@ export default function Skills() {
                   className="flex-1 h-px bg-[#162035]"
                   initial={{ scaleX: 0, transformOrigin: "left" }}
                   whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.7, delay: gi * 0.08 + 0.15, ease: [0.16, 1, 0.3, 1] }}
                 />
               </motion.div>

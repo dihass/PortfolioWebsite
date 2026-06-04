@@ -27,7 +27,7 @@ export default function GlitchHeading({ text, subtitle, inView, delay = 0.1, cen
     <div className="overflow-hidden">
       <motion.div
         initial={{ y: "100%" }}
-        animate={inView ? { y: 0 } : {}}
+        animate={inView ? { y: 0 } : { y: "100%" }}
         transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
         className={`flex items-baseline gap-4 ${center ? "justify-center" : ""}`}
       >

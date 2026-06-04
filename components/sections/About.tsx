@@ -26,14 +26,14 @@ export default function About() {
           <div className="relative pb-12 md:pb-0">
             <motion.div
               initial={{ clipPath: "inset(100% 0 0 0)" }}
-              animate={inView ? { clipPath: "inset(0% 0 0 0)" } : {}}
+              animate={inView ? { clipPath: "inset(0% 0 0 0)" } : { clipPath: "inset(100% 0 0 0)" }}
               transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="relative w-full aspect-[3/4] max-w-[340px]"
             >
               <motion.div
                 className="absolute inset-0 rounded-sm border border-[#c8a94e]/12"
                 initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
+                animate={inView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 1.0 }}
                 style={{ boxShadow: "0 0 50px rgba(200,169,78,0.08)" }}
               />
@@ -43,7 +43,7 @@ export default function About() {
 
             <motion.div
               initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
-              animate={inView ? { clipPath: "inset(0 0 0% 0)", opacity: 1 } : {}}
+              animate={inView ? { clipPath: "inset(0 0 0% 0)", opacity: 1 } : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="absolute -bottom-8 -right-4 md:-right-12 w-[140px] h-[180px] border-2 border-[#060912]"
             >
@@ -56,7 +56,7 @@ export default function About() {
           <div className="pt-4 md:pt-0">
             <motion.p
               initial={{ opacity: 0, x: -12 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
+              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-4"
             >
@@ -66,7 +66,7 @@ export default function About() {
             <div className="mb-8 overflow-hidden">
               <motion.h2
                 initial={{ y: "100%" }}
-                animate={inView ? { y: 0 } : {}}
+                animate={inView ? { y: 0 } : { y: "100%" }}
                 transition={{ duration: 0.75, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="font-spectral text-display-md text-[#e2f0ff]"
               >
@@ -78,7 +78,7 @@ export default function About() {
 
             <motion.div
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
+              animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.7, delay: 0.55 }}
               className="space-y-4 text-[#4a7090] leading-[1.85] font-urbanist mb-8"
             >
@@ -99,7 +99,7 @@ export default function About() {
             {/* DarvinCode callout — prominent HUD box */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.65, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="relative mb-8 p-4 bg-[#0d0b08] border border-[#c8a94e]/25 overflow-hidden"
             >
@@ -147,7 +147,7 @@ export default function About() {
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
                   transition={{ duration: 0.5, delay: 0.9 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ borderColor: "rgba(0,200,255,0.3)", y: -2 }}
                   className="bg-[#090f1e] border border-[#162035] p-4 rounded-sm transition-colors duration-200"

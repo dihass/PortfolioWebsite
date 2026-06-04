@@ -216,7 +216,7 @@ export default function Projects() {
         <div className="mb-16">
           <motion.p
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
             transition={{ duration: 0.5 }}
             className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
           >
