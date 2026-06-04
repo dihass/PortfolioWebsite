@@ -20,6 +20,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/favicon.svg" },
   title: "Dihas Sathnindu — Software Engineer",
   description:
     "Software Engineer specialising in full-stack systems, backend optimisation, and mobile development. Open to junior SWE roles.",

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    @keyframes pulse-ring {
+      0%, 100% { r: 12; opacity: 0.55; }
+      50% { r: 13.5; opacity: 0.18; }
+    }
+    @keyframes pulse-inner {
+      0%, 100% { r: 8; opacity: 0.25; }
+      50% { r: 9.5; opacity: 0.08; }
+    }
+    @keyframes orbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes orbit-reverse {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    @keyframes core-glow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+    @keyframes flicker {
+      0%, 90%, 100% { opacity: 1; }
+      92% { opacity: 0.4; }
+      94% { opacity: 1; }
+      96% { opacity: 0.6; }
+    }
+    .ring-outer { animation: pulse-ring 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .ring-inner { animation: pulse-inner 2.4s ease-in-out infinite 0.4s; transform-box: fill-box; transform-origin: center; }
+    .orbit-cw { transform-origin: 16px 16px; animation: orbit 5s linear infinite; }
+    .orbit-ccw { transform-origin: 16px 16px; animation: orbit-reverse 7s linear infinite; }
+    .core { animation: core-glow 2.4s ease-in-out infinite; }
+    .frame { animation: flicker 8s step-end infinite; }
+  </style>
+
+  <!-- Background -->
+  <rect class="frame" width="32" height="32" rx="5" fill="#060912"/>
+
+  <!-- Outer cyan pulse ring -->
+  <circle class="ring-outer" cx="16" cy="16" r="12" fill="none" stroke="#00c8ff" stroke-width="0.7"/>
+
+  <!-- Inner cyan pulse ring -->
+  <circle class="ring-inner" cx="16" cy="16" r="8" fill="none" stroke="#00c8ff" stroke-width="0.5"/>
+
+  <!-- Orbiting nodes — clockwise (neon green data stream) -->
+  <g class="orbit-cw">
+    <circle cx="16" cy="4.5" r="1.4" fill="#00ff88" opacity="0.9"/>
+    <circle cx="27.5" cy="16" r="1" fill="#00ff88" opacity="0.6"/>
+    <circle cx="16" cy="27.5" r="1.4" fill="#00ff88" opacity="0.9"/>
+    <circle cx="4.5" cy="16" r="1" fill="#00ff88" opacity="0.6"/>
+  </g>
+
+  <!-- Orbiting nodes — counter-clockwise (cyan network) -->
+  <g class="orbit-ccw">
+    <circle cx="22.3" cy="6.8" r="0.9" fill="#00c8ff" opacity="0.7"/>
+    <circle cx="25.2" cy="22.3" r="0.9" fill="#00c8ff" opacity="0.7"/>
+    <circle cx="9.7" cy="25.2" r="0.9" fill="#00c8ff" opacity="0.7"/>
+    <circle cx="6.8" cy="9.7" r="0.9" fill="#00c8ff" opacity="0.7"/>
+  </g>
+
+  <!-- Gold consciousness core -->
+  <circle class="core" cx="16" cy="16" r="4.5" fill="#c8a94e"/>
+  <!-- Core highlight -->
+  <circle cx="14.5" cy="14.5" r="1.8" fill="#e8c870" opacity="0.55"/>
+</svg>
