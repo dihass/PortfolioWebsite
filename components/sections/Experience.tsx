@@ -46,7 +46,7 @@ export default function Experience() {
           <motion.p
             initial={{ opacity: 0, x: -16 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.7 }}
             className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
           >
             {'// BACKGROUND'}
@@ -59,7 +59,7 @@ export default function Experience() {
           <motion.div
             initial={{ scaleY: 0 }}
             animate={lineInView ? { scaleY: 1 } : { scaleY: 0 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformOrigin: "top" }}
             className="absolute left-0 md:left-[200px] top-0 bottom-0 w-px bg-gradient-to-b from-[#00c8ff] via-[#c8a94e]/25 to-transparent"
           />
@@ -71,7 +71,7 @@ export default function Experience() {
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.7, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1.0, delay: i * 0.25, ease: [0.16, 1, 0.3, 1] }}
                 className="relative pl-8 md:pl-0 md:grid md:grid-cols-[200px_1fr] md:gap-10"
               >
                 {/* Dot */}
@@ -79,7 +79,7 @@ export default function Experience() {
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.4, delay: i * 0.2 + 0.3, type: "spring", stiffness: 300 }}
+                  transition={{ duration: 0.6, delay: i * 0.25 + 0.4, type: "spring", stiffness: 260 }}
                   className={`absolute left-[-4px] md:left-[196px] top-1.5 w-2.5 h-2.5 rounded-full z-10 ${item.type === "work" ? "bg-[#00c8ff]" : "bg-[#c8a94e]"}`}
                   style={{ boxShadow: item.type === "work" ? "0 0 12px rgba(0,200,255,0.7)" : "0 0 12px rgba(200,169,78,0.65)" }}
                 />

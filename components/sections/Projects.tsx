@@ -108,7 +108,7 @@ function TiltCard({ project, delay }: { project: Project; delay: number }) {
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1.0, delay, ease: [0.16, 1, 0.3, 1] }}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
       ref={cardRef}
       onMouseMove={onMouseMove}
@@ -217,7 +217,7 @@ export default function Projects() {
           <motion.p
             initial={{ opacity: 0, x: -16 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.7 }}
             className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
           >
             {'// SELECTED WORK'}

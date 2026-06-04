@@ -28,7 +28,7 @@ export default function GlitchHeading({ text, subtitle, inView, delay = 0.1, cen
       <motion.div
         initial={{ y: "100%" }}
         animate={inView ? { y: 0 } : { y: "100%" }}
-        transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.0, delay, ease: [0.16, 1, 0.3, 1] }}
         className={`flex items-baseline gap-4 ${center ? "justify-center" : ""}`}
       >
         <h2

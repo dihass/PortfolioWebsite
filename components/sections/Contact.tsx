@@ -23,7 +23,7 @@ function EmailReveal({ inView }: { inView: boolean }) {
           className={`inline-block ${char === "@" || char === "." ? "text-[#00c8ff]" : ""}`}
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ delay: 0.5 + i * 0.022, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 0.5 + i * 0.030, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         >
           {char}
         </motion.span>
@@ -43,7 +43,7 @@ export default function Contact() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1.5 }}
+        transition={{ duration: 2.2 }}
       >
         <motion.div
           className="w-[700px] h-[700px] rounded-full bg-[#00c8ff]/4 blur-[140px]"
@@ -63,18 +63,18 @@ export default function Contact() {
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.7 }}
           className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-6"
         >
           {'// GET IN TOUCH'}
         </motion.p>
 
-        <GlitchHeading text="Let's Talk" inView={inView} delay={0.1} center />
+        <GlitchHeading text="Let's Talk" inView={inView} delay={0.12} center />
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
+          transition={{ duration: 0.85, delay: 0.3 }}
           className="font-urbanist text-lg text-[#4a7090] mt-6 mb-8 max-w-xl mx-auto"
         >
           Looking for a junior engineer who ships? Let&apos;s talk.
@@ -85,7 +85,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.4, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
           className="flex items-center justify-center gap-4 flex-wrap"
         >
           {links.map((link, i) => (
@@ -96,7 +96,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 24, scale: 0.85 }}
               animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 24, scale: 0.85 }}
-              transition={{ duration: 0.5, delay: 1.1 + i * 0.1, type: "spring", stiffness: 260, damping: 18 }}
+              transition={{ duration: 0.7, delay: 1.3 + i * 0.12, type: "spring", stiffness: 220, damping: 18 }}
               whileHover={{ y: -5, boxShadow: "0 0 28px rgba(0,200,255,0.22)", borderColor: "rgba(0,200,255,0.45)" }}
               className="flex items-center gap-2.5 font-urbanist text-sm tracking-[0.06em] uppercase px-5 py-3 border border-[#162035] text-[#4a7090] hover:text-[#e2f0ff] transition-colors duration-200 rounded-sm"
             >

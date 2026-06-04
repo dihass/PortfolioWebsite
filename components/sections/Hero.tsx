@@ -22,7 +22,7 @@ function TerminalLabel({ text, startDelay = 0.5 }: { text: string; startDelay?: 
 
   useEffect(() => {
     if (!started || displayed.length >= text.length) return;
-    const t = setTimeout(() => setDisplayed(text.slice(0, displayed.length + 1)), 28);
+    const t = setTimeout(() => setDisplayed(text.slice(0, displayed.length + 1)), 40);
     return () => clearTimeout(t);
   }, [displayed, started, text]);
 
@@ -74,7 +74,7 @@ export default function Hero() {
                   className="block text-[#e2f0ff]"
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.75, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 1.0, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
                 >
                   Dihas
                 </motion.span>
@@ -88,8 +88,8 @@ export default function Hero() {
                     textShadow: ["0 0 0px rgba(200,169,78,0)", "0 0 50px rgba(200,169,78,0.75)", "0 0 16px rgba(200,169,78,0.35)"],
                   }}
                   transition={{
-                    y: { duration: 0.75, delay: 0.92, ease: [0.16, 1, 0.3, 1] },
-                    textShadow: { duration: 1.4, delay: 1.7, ease: "easeOut" },
+                    y: { duration: 1.0, delay: 0.92, ease: [0.16, 1, 0.3, 1] },
+                    textShadow: { duration: 2.0, delay: 1.7, ease: "easeOut" },
                   }}
                 >
                   Sathnindu
@@ -100,7 +100,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.3 }}
+              transition={{ duration: 0.75, delay: 1.3 }}
               className="font-urbanist text-xl md:text-2xl text-[#4a7090] mb-8 h-8"
             >
               <TypewriterText />
@@ -109,7 +109,7 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.5 }}
+              transition={{ duration: 0.85, delay: 1.5 }}
               className="font-urbanist text-base text-[#4a7090] leading-relaxed mb-10 max-w-lg"
             >
               I build scalable backend systems, full-stack platforms, and mobile
@@ -119,7 +119,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.7 }}
+              transition={{ duration: 0.75, delay: 1.7 }}
               className="flex flex-wrap gap-4"
             >
               <motion.button
@@ -163,7 +163,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.2 }}
+          transition={{ delay: 2.8 }}
           className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <motion.span
@@ -185,7 +185,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 0.8 }}
+        transition={{ delay: 3.0, duration: 1.2 }}
         className="absolute bottom-0 left-0 right-0 z-10 border-t border-[#162035] bg-[#060912]/80 backdrop-blur-sm overflow-hidden py-2"
       >
         <div className="flex">
