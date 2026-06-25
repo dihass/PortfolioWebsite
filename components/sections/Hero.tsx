@@ -1,9 +1,14 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { BsWrench, BsGeoAlt, BsLightning } from "react-icons/bs";
 import type { IconType } from "react-icons";
+import CodeMascotEasterEgg from "@/components/ui/CodeMascotEasterEgg";
+import InteractiveWord from "@/components/ui/InteractiveWord";
+
+const SOFTWARE_LETTERS = ["S", "o", "f", "t", "w", "a", "r", "e"];
 
 const STACK_TICKER = [
   "NEXT.JS", "REACT", "NODE.JS", "TYPESCRIPT", "PYTHON", "SWIFT", "PYTORCH",
@@ -17,6 +22,12 @@ const stickers: { label: string; Icon: IconType; bg: string; text: string; rotat
 ];
 
 export default function Hero() {
+  const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const stickerRefs = useRef<{
+    sriLanka: HTMLDivElement | null;
+    building: HTMLDivElement | null;
+  }>({ sriLanka: null, building: null });
+
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden flex flex-col">
 
@@ -36,19 +47,30 @@ export default function Hero() {
                 HELLO, I&apos;M A →
               </motion.p>
 
-              {/* Giant name — Fraunces at full weight */}
-              <div className="overflow-hidden mb-2">
-                <motion.h1
-                  initial={{ y: "110%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 1.0, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-fraunces font-black text-[#1c1714] leading-[0.88] tracking-tight"
-                  style={{ fontSize: "clamp(4.5rem, 13vw, 10rem)" }}
-                >
-                  Software
-                </motion.h1>
+              {/* Giant heading — outer wrapper lets the mascot escape the text reveal clip */}
+              <div className="relative mb-2">
+                <CodeMascotEasterEgg letterRefs={letterRefs} stickerRefs={stickerRefs} />
+                <div className="overflow-hidden">
+                  <motion.h1
+                    initial={{ y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1.0, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="font-fraunces font-black text-[#1c1714] leading-[0.88] tracking-tight"
+                    style={{ fontSize: "clamp(4.5rem, 13vw, 10rem)" }}
+                  >
+                    {SOFTWARE_LETTERS.map((char, i) => (
+                      <span
+                        key={i}
+                        ref={el => { letterRefs.current[i] = el; }}
+                        className="inline-block"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </motion.h1>
+                </div>
               </div>
-              <div className="overflow-hidden mb-8">
+              <div className="overflow-hidden mb-8 md:hidden">
                 <motion.h1
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
@@ -59,6 +81,20 @@ export default function Hero() {
                   Engineer.
                 </motion.h1>
               </div>
+              <motion.div
+                initial={{ opacity: 0, y: 42, clipPath: "inset(100% 0 0 0)" }}
+                animate={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
+                transition={{ duration: 1.0, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="hidden md:block mb-8"
+              >
+                <InteractiveWord
+                  text="Engineer."
+                  className="font-fraunces font-black leading-[0.88] tracking-tight"
+                  baseColor="#1c1714"
+                  accentColor="#0d7f60"
+                  backgroundColor="#f9f5ef"
+                />
+              </motion.div>
 
               {/* Name + role line */}
               <motion.div
@@ -176,6 +212,10 @@ export default function Hero() {
               {stickers.map((s, i) => (
                 <motion.div
                   key={i}
+                  ref={(el) => {
+                    if (s.label === "SRI LANKA") stickerRefs.current.sriLanka = el;
+                    if (s.label === "Building since 2022") stickerRefs.current.building = el;
+                  }}
                   className={`absolute ${s.animation}`}
                   style={{
                     top: s.top,

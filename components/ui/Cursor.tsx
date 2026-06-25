@@ -53,12 +53,21 @@ export default function Cursor() {
       <div
         ref={dotRef}
         className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full pointer-events-none hidden [@media(pointer:fine)]:block"
-        style={{ willChange: "transform", backgroundColor: "#1c1714" }}
+        style={{
+          willChange: "transform",
+          backgroundColor: "#f9f5ef",
+          border: "1px solid rgba(28, 23, 20, 0.9)",
+          boxShadow: "0 0 0 2px rgba(249, 245, 239, 0.75), 0 0 12px rgba(159, 234, 211, 0.85)",
+        }}
       />
       <div
         ref={ringRef}
         className="fixed top-0 left-0 z-[9998] w-10 h-10 rounded-full pointer-events-none transition-all duration-300 hidden [@media(pointer:fine)]:block"
-        style={{ willChange: "transform", border: "1px solid rgba(28,23,20,0.3)" }}
+        style={{
+          willChange: "transform",
+          border: "1px solid rgba(249, 245, 239, 0.72)",
+          boxShadow: "inset 0 0 0 1px rgba(28, 23, 20, 0.22), 0 0 18px rgba(159, 234, 211, 0.42)",
+        }}
       />
     </>
   );
