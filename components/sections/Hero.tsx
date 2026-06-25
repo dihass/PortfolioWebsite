@@ -2,17 +2,18 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { BsWrench, BsGeoAlt, BsLightning } from "react-icons/bs";
+import type { IconType } from "react-icons";
 
 const STACK_TICKER = [
   "NEXT.JS", "REACT", "NODE.JS", "TYPESCRIPT", "PYTHON", "SWIFT", "PYTORCH",
   "POSTGRESQL", "DOCKER", "TAILWIND", "MONGODB", "JAVA",
 ];
 
-const stickers = [
-  { label: "Building since 2022 🛠️", bg: "#f9c840", text: "#7a4800", rotation: 8, top: "8%", right: "4%",  animation: "float-right" },
-  { label: "SRI LANKA 🌴",           bg: "#9fead3", text: "#0d7f60", rotation: -6, bottom: "28%", left: "2%", animation: "float-left"  },
-  { label: "FYP 🧬 AUROC 0.9283",   bg: "#dce4ff", text: "#3440c0", rotation: -4, bottom: "8%",  right: "2%", animation: "float-right" },
-  { label: "DarvinCode founder 🚀",  bg: "#ffd0bc", text: "#8b3010", rotation: 5,  top: "52%",    right: "0%", animation: "float-left"  },
+const stickers: { label: string; Icon: IconType; bg: string; text: string; rotation: number; top?: string; bottom?: string; left?: string; right?: string; animation: string }[] = [
+  { label: "Building since 2022", Icon: BsWrench,  bg: "#f9c840", text: "#7a4800", rotation:  8, top: "0%",  right: "0%", animation: "float-right" },
+  { label: "SRI LANKA",           Icon: BsGeoAlt,  bg: "#9fead3", text: "#0d7f60", rotation: -7, top: "4%",  left: "0%",  animation: "float-left"  },
+  { label: "DarvinCode founder",  Icon: BsLightning, bg: "#ffd0bc", text: "#8b3010", rotation:  5, top: "45%", right: "0%", animation: "float-right" },
 ];
 
 export default function Hero() {
@@ -192,7 +193,8 @@ export default function Hero() {
                     className="px-3 py-2.5 shadow-md rounded-sm"
                     style={{ background: s.bg, color: s.text }}
                   >
-                    <p className="font-silkscreen text-[9px] tracking-wide leading-tight whitespace-nowrap">
+                    <p className="font-silkscreen text-[9px] tracking-wide leading-tight whitespace-nowrap flex items-center gap-1.5">
+                      <s.Icon className="w-4 h-4 flex-shrink-0" />
                       {s.label}
                     </p>
                   </div>

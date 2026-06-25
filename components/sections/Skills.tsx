@@ -8,6 +8,8 @@ import {
   SiMongodb, SiPostgresql, SiGit, SiDocker, SiVercel, SiPytorch,
 } from "react-icons/si";
 import { FaJava, FaDatabase } from "react-icons/fa";
+import { BsCode, BsCpu, BsPhone, BsType, BsGear } from "react-icons/bs";
+import type { IconType } from "react-icons";
 
 const TICKER_ROW = [
   "JAVA", "PYTHON", "JAVASCRIPT", "TYPESCRIPT", "SWIFT", "SQL",
@@ -15,11 +17,11 @@ const TICKER_ROW = [
   "POSTGRESQL", "DOCKER", "GIT", "VERCEL", "REST APIS", "AGILE",
 ];
 
-const bento = [
+const bento: { id: string; label: string; CellIcon: IconType; bg: string; text: string; col: string; items: { name: string; Icon: IconType }[] }[] = [
   {
     id: "fullstack",
     label: "FULL STACK",
-    emoji: "⚡",
+    CellIcon: BsCode,
     bg: "#9fead3",
     text: "#0d7f60",
     col: "md:col-span-2",
@@ -27,62 +29,62 @@ const bento = [
       { name: "React",       Icon: SiReact       },
       { name: "Next.js",     Icon: SiNextdotjs   },
       { name: "Node.js",     Icon: SiNodedotjs   },
-      { name: "TypeScript",  Icon: SiTypescript   },
-      { name: "Tailwind",    Icon: SiTailwindcss  },
+      { name: "TypeScript",  Icon: SiTypescript  },
+      { name: "Tailwind",    Icon: SiTailwindcss },
     ],
   },
   {
     id: "aiml",
     label: "AI & ML",
-    emoji: "🧬",
+    CellIcon: BsCpu,
     bg: "#dce4ff",
     text: "#3440c0",
     col: "md:col-span-1",
     items: [
-      { name: "PyTorch",  Icon: SiPytorch   },
-      { name: "Python",   Icon: SiPython    },
+      { name: "PyTorch",  Icon: SiPytorch },
+      { name: "Python",   Icon: SiPython  },
     ],
   },
   {
     id: "mobile",
     label: "MOBILE",
-    emoji: "📱",
+    CellIcon: BsPhone,
     bg: "#ffd0bc",
     text: "#8b3010",
     col: "md:col-span-1",
     items: [
-      { name: "Swift",    Icon: SiSwift },
+      { name: "Swift", Icon: SiSwift },
     ],
   },
   {
     id: "languages",
     label: "LANGUAGES",
-    emoji: "🔤",
+    CellIcon: BsType,
     bg: "#f9c840",
     text: "#7a4800",
     col: "md:col-span-2",
     items: [
       { name: "Java",        Icon: FaJava       },
-      { name: "Python",      Icon: SiPython      },
-      { name: "JavaScript",  Icon: SiJavascript  },
-      { name: "TypeScript",  Icon: SiTypescript  },
-      { name: "Swift",       Icon: SiSwift       },
-      { name: "SQL",         Icon: FaDatabase    },
+      { name: "Python",      Icon: SiPython     },
+      { name: "JavaScript",  Icon: SiJavascript },
+      { name: "TypeScript",  Icon: SiTypescript },
+      { name: "Swift",       Icon: SiSwift      },
+      { name: "SQL",         Icon: FaDatabase   },
     ],
   },
   {
     id: "infra",
     label: "INFRA & TOOLS",
-    emoji: "🛠️",
+    CellIcon: BsGear,
     bg: "#1c1714",
     text: "#f9f5ef",
     col: "md:col-span-1",
     items: [
-      { name: "Docker",     Icon: SiDocker   },
-      { name: "Git",        Icon: SiGit      },
+      { name: "Docker",     Icon: SiDocker    },
+      { name: "Git",        Icon: SiGit       },
       { name: "PostgreSQL", Icon: SiPostgresql},
-      { name: "MongoDB",    Icon: SiMongodb  },
-      { name: "Vercel",     Icon: SiVercel   },
+      { name: "MongoDB",    Icon: SiMongodb   },
+      { name: "Vercel",     Icon: SiVercel    },
     ],
   },
 ];
@@ -131,7 +133,7 @@ export default function Skills() {
               className={`${cell.col} rounded-xl p-6 relative overflow-hidden`}
               style={{ background: cell.bg }}
             >
-              {/* Label + emoji */}
+              {/* Label + icon */}
               <div className="flex items-center justify-between mb-5">
                 <span
                   className="font-silkscreen text-[9px] tracking-widest uppercase font-bold"
@@ -139,7 +141,7 @@ export default function Skills() {
                 >
                   {cell.label}
                 </span>
-                <span className="text-xl">{cell.emoji}</span>
+                <cell.CellIcon className="w-5 h-5 flex-shrink-0" style={{ color: cell.text }} />
               </div>
 
               {/* Icons + names */}
@@ -161,13 +163,6 @@ export default function Skills() {
                 ))}
               </div>
 
-              {/* Large background number */}
-              <span
-                className="absolute -bottom-2 -right-2 font-fraunces font-black text-8xl leading-none select-none pointer-events-none"
-                style={{ color: "rgba(0,0,0,0.05)" }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
             </motion.div>
           ))}
         </div>

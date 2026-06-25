@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { BsBriefcase, BsMortarboard } from "react-icons/bs";
+import type { IconType } from "react-icons";
 
 const timeline = [
   {
@@ -10,7 +12,7 @@ const timeline = [
     org: "IFS",
     location: "Colombo, Sri Lanka",
     type: "work",
-    emoji: "🏢",
+    Icon: BsBriefcase,
     bg: "#1c1714",
     barBg: "#2e2926",
     textColor: "#f9f5ef",
@@ -30,7 +32,7 @@ const timeline = [
     org: "IIT / University of Westminster",
     location: "Colombo, Sri Lanka",
     type: "education",
-    emoji: "🎓",
+    Icon: BsMortarboard,
     bg: "#fef8e0",
     barBg: "#f9e070",
     textColor: "#1c1714",
@@ -97,7 +99,7 @@ export default function Experience() {
                 <span className="font-silkscreen text-[9px] tracking-wider" style={{ color: item.mutedColor }}>
                   {item.year}
                 </span>
-                <span className="text-lg">{item.emoji}</span>
+                <item.Icon className="w-5 h-5 flex-shrink-0" style={{ color: item.mutedColor }} />
               </div>
 
               {/* Card body */}
