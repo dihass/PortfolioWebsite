@@ -1,31 +1,18 @@
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
 import Contact from "@/components/sections/Contact";
-import {
-  T1Neural,
-  T2Radar,
-  T3ColumnBurst,
-  T4Membrane,
-  T5Convergence,
-} from "@/components/ui/SectionTransitions";
 
 export default function Home() {
   return (
-    <main className="bg-[#060912] min-h-screen">
+    <main className="bg-cream min-h-screen">
+      <div className="rainbow-bar" />
       <Hero />
-      <T1Neural />
-      <About />
-      <T2Radar />
-      <Skills />
-      <T3ColumnBurst />
       <Projects />
-      <T4Membrane />
+      <Skills />
       <Experience />
-      <T5Convergence />
       <Contact />
       <Footer />
     </main>

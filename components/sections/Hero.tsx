@@ -1,198 +1,244 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import TypewriterText from "@/components/ui/TypewriterText";
+import Image from "next/image";
 
-const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false });
-const HeroOrb   = dynamic(() => import("@/components/three/HeroOrb"),   { ssr: false });
+const STACK_TICKER = [
+  "NEXT.JS", "REACT", "NODE.JS", "TYPESCRIPT", "PYTHON", "SWIFT", "PYTORCH",
+  "POSTGRESQL", "DOCKER", "TAILWIND", "MONGODB", "JAVA",
+];
 
-const STREAM_TEXT =
-  "SIGNAL: ACTIVE  //  UID: DS_∞  //  STATUS: AVAILABLE FOR HIRE  //  CONSCIOUSNESS: UPLOADED  //  0x00FF88  //  SYSTEMS: ONLINE  //  STACK: FULL  //  AESTHETIC: PANTHEON  //  ";
-
-function TerminalLabel({ text, startDelay = 0.5 }: { text: string; startDelay?: number }) {
-  const [displayed, setDisplayed] = useState("");
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setStarted(true), startDelay * 1000);
-    return () => clearTimeout(t);
-  }, [startDelay]);
-
-  useEffect(() => {
-    if (!started || displayed.length >= text.length) return;
-    const t = setTimeout(() => setDisplayed(text.slice(0, displayed.length + 1)), 40);
-    return () => clearTimeout(t);
-  }, [displayed, started, text]);
-
-  return (
-    <span>
-      {displayed}
-      {displayed.length < text.length && (
-        <span className="opacity-60 animate-pulse">▋</span>
-      )}
-    </span>
-  );
-}
+const stickers = [
+  { label: "Building since 2022 🛠️", bg: "#f9c840", text: "#7a4800", rotation: 8, top: "8%", right: "4%",  animation: "float-right" },
+  { label: "SRI LANKA 🌴",           bg: "#9fead3", text: "#0d7f60", rotation: -6, bottom: "28%", left: "2%", animation: "float-left"  },
+  { label: "FYP 🧬 AUROC 0.9283",   bg: "#dce4ff", text: "#3440c0", rotation: -4, bottom: "8%",  right: "2%", animation: "float-right" },
+  { label: "DarvinCode founder 🚀",  bg: "#ffd0bc", text: "#8b3010", rotation: 5,  top: "52%",    right: "0%", animation: "float-left"  },
+];
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <HeroScene />
-        </Suspense>
-      </div>
+    <section id="hero" className="relative min-h-screen overflow-hidden flex flex-col">
 
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#060912] via-[#060912]/40 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#060912]/85 via-transparent to-transparent pointer-events-none" />
+      {/* Main content */}
+      <div className="flex-1 flex items-center">
+        <div className="w-full max-w-[1280px] mx-auto px-6 md:px-12 pt-28 pb-8">
+          <div className="grid md:grid-cols-[1fr_420px] gap-8 lg:gap-16 items-center">
 
-      {/* Periodic static flicker */}
-      <motion.div
-        className="absolute inset-0 z-[2] pointer-events-none bg-[#00ff88]/[0.01]"
-        animate={{ opacity: [0, 1, 0, 0, 0] }}
-        transition={{ duration: 0.12, repeat: Infinity, repeatDelay: 6 }}
-      />
+            {/* Left: text content */}
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="font-silkscreen text-[11px] tracking-widest text-[#0d7f60] uppercase mb-5"
+              >
+                HELLO, I&apos;M A →
+              </motion.p>
 
-      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 md:px-12 pt-20 sm:pt-28 pb-24">
-        <div className="grid md:grid-cols-[1fr_auto] gap-12 items-center">
-          <div className="max-w-2xl">
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.01, delay: 0.4 }}
-              className="font-mono text-xs tracking-[0.22em] text-[#00ff88]/60 uppercase mb-6 h-4"
-            >
-              <TerminalLabel text="// CONSCIOUSNESS ONLINE" startDelay={0.5} />
-            </motion.p>
-
-            <h1 className="font-spectral text-display-xl mb-4 leading-[1.0]">
-              <span className="block overflow-hidden">
-                <motion.span
-                  className="block text-[#e2f0ff]"
+              {/* Giant name — Fraunces at full weight */}
+              <div className="overflow-hidden mb-2">
+                <motion.h1
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 1.0, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 1.0, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-fraunces font-black text-[#1c1714] leading-[0.88] tracking-tight"
+                  style={{ fontSize: "clamp(4.5rem, 13vw, 10rem)" }}
                 >
-                  Dihas
-                </motion.span>
-              </span>
-              <span className="block overflow-hidden">
-                <motion.span
-                  className="block text-[#c8a94e]"
+                  Software
+                </motion.h1>
+              </div>
+              <div className="overflow-hidden mb-8">
+                <motion.h1
                   initial={{ y: "110%" }}
-                  animate={{
-                    y: 0,
-                    textShadow: ["0 0 0px rgba(200,169,78,0)", "0 0 50px rgba(200,169,78,0.75)", "0 0 16px rgba(200,169,78,0.35)"],
-                  }}
-                  transition={{
-                    y: { duration: 1.0, delay: 0.92, ease: [0.16, 1, 0.3, 1] },
-                    textShadow: { duration: 2.0, delay: 1.7, ease: "easeOut" },
-                  }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 1.0, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-fraunces font-black text-[#1c1714] leading-[0.88] tracking-tight"
+                  style={{ fontSize: "clamp(4.5rem, 13vw, 10rem)" }}
                 >
-                  Sathnindu
-                </motion.span>
-              </span>
-            </h1>
+                  Engineer.
+                </motion.h1>
+              </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 1.3 }}
-              className="font-urbanist text-xl md:text-2xl text-[#4a7090] mb-8 h-8"
-            >
-              <TypewriterText />
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 1.5 }}
-              className="font-urbanist text-base text-[#4a7090] leading-relaxed mb-10 max-w-lg"
-            >
-              I build scalable backend systems, full-stack platforms, and mobile
-              apps. Currently open to junior software engineering opportunities.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 1.7 }}
-              className="flex flex-wrap gap-4"
-            >
-              <motion.button
-                onClick={() =>
-                  document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="relative font-urbanist text-sm tracking-[0.08em] uppercase px-6 py-3.5 bg-[#00c8ff] text-[#060912] font-semibold overflow-hidden"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              {/* Name + role line */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 1.1 }}
+                className="flex flex-wrap items-center gap-3 mb-6"
               >
-                <motion.span
-                  className="absolute inset-0 bg-white/20"
-                  initial={{ x: "-100%", skewX: "-20deg" }}
-                  whileHover={{ x: "200%" }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                <span className="font-fraunces font-semibold text-xl text-[#1c1714]">Dihas Sathnindu</span>
+                <span className="font-silkscreen text-[9px] text-[#bdb0a0]">—</span>
+                <span className="font-silkscreen text-[9px] tracking-wider text-[#7a6f68] uppercase">Colombo, Sri Lanka</span>
+              </motion.div>
+
+              {/* Bio */}
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+                className="font-jakarta text-[1.05rem] text-[#7a6f68] leading-relaxed mb-8 max-w-lg"
+              >
+                I build full-stack platforms, mobile apps, and AI research tools. Final year CS student at IIT/Westminster. Interned at IFS. Founder of DarvinCode. Open to junior SWE roles.
+              </motion.p>
+
+              {/* Tags row */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.35 }}
+                className="flex flex-wrap gap-2 mb-8"
+              >
+                <span className="flex items-center gap-1.5 font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#c8f5e5] text-[#0d7f60]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0d7f60] pulse-dot inline-block" />
+                  AVAILABLE NOW
+                </span>
+                <span className="font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#fef8e0] text-[#7a4800]">
+                  IFS INTERN 2024
+                </span>
+                <span className="font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#dce4ff] text-[#3440c0]">
+                  FYP · AI RESEARCH
+                </span>
+              </motion.div>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.5 }}
+                className="flex flex-wrap gap-3"
+              >
+                <motion.button
+                  onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
+                  className="font-jakarta font-medium text-sm px-7 py-3.5 bg-[#1c1714] text-[#f9f5ef] rounded-xl overflow-hidden relative"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                >
+                  <motion.span
+                    className="absolute inset-0 bg-[#0d7f60]"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  />
+                  <span className="relative z-10">See My Work →</span>
+                </motion.button>
+
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-jakarta text-sm px-7 py-3.5 border-2 border-[#1c1714] text-[#1c1714] rounded-xl hover:bg-[#1c1714] hover:text-[#f9f5ef] transition-all duration-200"
+                >
+                  Resume ↗
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Right: photo collage */}
+            <div className="relative h-[480px] hidden md:block">
+
+              {/* Spinning circular badge */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <div className="relative w-[300px] h-[300px]">
+                  {/* Spinning text ring */}
+                  <svg
+                    viewBox="0 0 200 200"
+                    className="absolute inset-0 w-full h-full spin-slow"
+                  >
+                    <defs>
+                      <path id="spinCircle" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />
+                    </defs>
+                    <text fill="#0d7f60" fontFamily="Silkscreen" fontSize="10">
+                      <textPath href="#spinCircle">AVAILABLE FOR HIRE ✦ OPEN TO WORK ✦ DIHAS SATHNINDU ✦ </textPath>
+                    </text>
+                  </svg>
+
+                  {/* Photo inside the ring */}
+                  <div className="absolute inset-[30px] rounded-full overflow-hidden border-[3px] border-[#1c1714]">
+                    <Image
+                      src="/about.jpg"
+                      alt="Dihas Sathnindu"
+                      fill
+                      className="object-cover object-top"
+                      priority
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Scattered sticker notes */}
+              {stickers.map((s, i) => (
+                <motion.div
+                  key={i}
+                  className={`absolute ${s.animation}`}
+                  style={{
+                    top: s.top,
+                    bottom: s.bottom,
+                    left: s.left,
+                    right: s.right,
+                    rotate: `${s.rotation}deg`,
+                  }}
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 1.3 + i * 0.15, type: "spring", stiffness: 260 }}
+                  whileHover={{ rotate: 0, scale: 1.08, zIndex: 10 }}
+                >
+                  <div
+                    className="px-3 py-2.5 shadow-md rounded-sm"
+                    style={{ background: s.bg, color: s.text }}
+                  >
+                    <p className="font-silkscreen text-[9px] tracking-wide leading-tight whitespace-nowrap">
+                      {s.label}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Floating star decorations */}
+              {[
+                { top: "14%", left: "12%", color: "#f9c840", size: 6, delay: 1.8 },
+                { top: "80%", left: "30%", color: "#9fead3", size: 5, delay: 2.1 },
+                { top: "35%", right: "8%", color: "#ffd0bc", size: 7, delay: 2.4 },
+              ].map((star, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full star-float"
+                  style={{
+                    top: star.top,
+                    left: star.left,
+                    right: (star as { right?: string }).right,
+                    width: star.size,
+                    height: star.size,
+                    background: star.color,
+                    animationDelay: `${i * 0.7}s`,
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: star.delay }}
                 />
-                <span className="relative z-10">View My Work</span>
-              </motion.button>
-
-              <motion.a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-urbanist text-sm tracking-[0.08em] uppercase px-6 py-3.5 border border-[#e2f0ff]/20 text-[#e2f0ff]"
-                whileHover={{ borderColor: "rgba(0,200,255,0.7)", color: "#00c8ff", scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              >
-                Download Resume
-              </motion.a>
-            </motion.div>
+              ))}
+            </div>
           </div>
-
-          <Suspense fallback={null}>
-            <HeroOrb />
-          </Suspense>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.8 }}
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <motion.span
-            className="font-mono text-[9px] tracking-[0.22em] text-[#00c8ff]/35 uppercase"
-            animate={{ opacity: [0.35, 0.7, 0.35] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            scroll
-          </motion.span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px h-8 bg-gradient-to-b from-[#00c8ff] to-transparent"
-          />
-        </motion.div>
       </div>
 
-      {/* Data stream ticker at bottom */}
+      {/* Dark ticker strip at bottom — vibecoding.to style */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3.0, duration: 1.2 }}
-        className="absolute bottom-0 left-0 right-0 z-10 border-t border-[#162035] bg-[#060912]/80 backdrop-blur-sm overflow-hidden py-2"
+        transition={{ delay: 2.0 }}
+        className="bg-[#1c1714] border-t-2 border-[#1c1714] overflow-hidden py-3"
       >
         <div className="flex">
-          <div className="animate-marquee flex whitespace-nowrap">
-            {[STREAM_TEXT, STREAM_TEXT].map((chunk, i) => (
-              <span key={i} className="font-mono text-[9px] tracking-[0.18em] text-[#00c8ff]/35 mr-0">
-                {chunk}
+          <div className="animate-ticker-left flex whitespace-nowrap gap-0">
+            {[...STACK_TICKER, ...STACK_TICKER, ...STACK_TICKER, ...STACK_TICKER].map((item, i) => (
+              <span key={i} className="font-silkscreen text-[10px] tracking-widest text-[#f9f5ef] mx-6">
+                {item} <span className="text-[#9fead3]">✦</span>
               </span>
             ))}
           </div>

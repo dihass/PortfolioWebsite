@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --font-spectral: 'Spectral', Georgia, serif;
-  --font-urbanist: 'Urbanist', system-ui, sans-serif;
+  --font-fraunces:   'Fraunces', Georgia, serif;
+  --font-jakarta:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-silkscreen: 'Silkscreen', monospace;
 }
 
 * {
@@ -20,120 +21,180 @@ html {
 }
 
 body {
-  background-color: #060912;
-  background-image:
-    linear-gradient(rgba(0, 200, 255, 0.022) 1px, transparent 1px),
-    linear-gradient(to right, rgba(0, 200, 255, 0.022) 1px, transparent 1px);
-  background-size: 72px 72px;
-  color: #e2f0ff;
-  font-family: var(--font-urbanist);
+  background-color: #f9f5ef;
+  color: #1c1714;
+  font-family: var(--font-jakarta);
+  font-size: 17px;
+  line-height: 1.7;
 }
 
-/* Subtle scanline overlay */
+/* Film grain — vibecoding.to texture trick */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 200, 255, 0.007) 2px,
-    rgba(0, 200, 255, 0.007) 4px
-  );
   pointer-events: none;
   z-index: 9997;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* === VIBECODING.TO DESIGN SYSTEM === */
+
+/* Rainbow bar — exact from vibecoding.to */
+.rainbow-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #30e895, #70ffbf 15%, #fdbe3f, #ea5e3e, #f42578 75%, #3c5fdd);
+}
+
+/* OS Window — vibecoding.to Mac window chrome */
+.os-window {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd0c0;
+  box-shadow: 0 4px 20px -6px rgba(28,23,20,0.10);
+}
+.os-window-bar {
+  height: 32px;
+  background: #f0e9de;
+  border-bottom: 1px solid #ddd0c0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  position: relative;
+}
+.os-window-dots {
+  display: flex;
+  gap: 6px;
+}
+.os-window-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-silkscreen);
+  font-size: 10px;
+  color: #7a6f68;
+}
+
+/* Section label style */
+.section-label {
+  font-family: var(--font-silkscreen);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0d7f60;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #060912;
-}
-::-webkit-scrollbar-thumb {
-  background: #162035;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #00c8ff;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f0e9de; }
+::-webkit-scrollbar-thumb { background: #ddd0c0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #0d7f60; }
 
 /* Selection */
 ::selection {
-  background: rgba(0, 200, 255, 0.2);
-  color: #e2f0ff;
+  background: rgba(159, 234, 211, 0.45);
+  color: #1c1714;
 }
 
-/* Marquee */
+/* === ANIMATIONS === */
+
+/* Slow spin — for rotating badge */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 14s linear infinite; }
+
+/* Float left/right — vibecoding.to */
+@keyframes float-left {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50%       { transform: translateY(-8px) rotate(-3deg); }
+}
+@keyframes float-right {
+  0%, 100% { transform: translateY(0px) rotate(4deg); }
+  50%       { transform: translateY(-6px) rotate(4deg); }
+}
+.float-left  { animation: float-left  3.5s ease-in-out infinite; }
+.float-right { animation: float-right 4.2s ease-in-out infinite; }
+
+/* Star float */
+@keyframes star-float {
+  0%         { opacity: 0.8; transform: translateY(0) scale(1); }
+  50%        { opacity: 1;   transform: translateY(-12px) scale(1.1); }
+  100%       { opacity: 0.8; transform: translateY(0) scale(1); }
+}
+.star-float { animation: star-float 3s ease-in-out infinite; }
+
+/* Letter bounce loop */
+@keyframes letter-bounce {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-10px); }
+  60%      { transform: translateY(-6px); }
+}
+
+/* Ticker animations — vibecoding.to */
+@keyframes ticker-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes ticker-right {
+  from { transform: translateX(-33.333%); }
+  to   { transform: translateX(0); }
+}
+.animate-ticker-left  { animation: ticker-left  24s linear infinite; }
+.animate-ticker-right { animation: ticker-right 24s linear infinite; }
+
+/* Marquee (kept for compat) */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.animate-marquee {
-  animation: marquee 28s linear infinite;
+.animate-marquee { animation: marquee 28s linear infinite; }
+
+/* Pulse dot */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(13, 127, 96, 0.4); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 5px rgba(13, 127, 96, 0); }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* Subtle bounce */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+.bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+
+/* Progress fill */
+@keyframes progress-fill {
+  from { width: 0%; }
+  to   { width: var(--progress); }
 }
 
-/* Pantheon glitch */
-@keyframes glitch-before {
-  0%   { clip-path: inset(20% 0 62% 0); transform: translate(-3px, 0); opacity: 0.9; }
-  20%  { clip-path: inset(80% 0 4%  0); transform: translate( 3px, 0); }
-  40%  { clip-path: inset(42% 0 32% 0); transform: translate(-2px, 0); }
-  60%  { clip-path: inset(14% 0 72% 0); transform: translate( 2px, 0); }
-  80%  { clip-path: inset(58% 0 12% 0); transform: translate(-1px, 0); }
-  100% { clip-path: inset(0 0 100% 0);  transform: translate( 0,   0); opacity: 0; }
+/* Blink cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
-@keyframes glitch-after {
-  0%   { clip-path: inset(62% 0 18% 0); transform: translate( 3px, 0); opacity: 0.9; }
-  20%  { clip-path: inset(8%  0 78% 0); transform: translate(-3px, 0); }
-  40%  { clip-path: inset(34% 0 44% 0); transform: translate( 2px, 0); }
-  60%  { clip-path: inset(76% 0 8%  0); transform: translate(-2px, 0); }
-  80%  { clip-path: inset(20% 0 58% 0); transform: translate( 1px, 0); }
-  100% { clip-path: inset(0 0 100% 0);  transform: translate( 0,   0); opacity: 0; }
-}
-.glitch-active {
-  position: relative;
-}
-.glitch-active::before,
-.glitch-active::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.glitch-active::before {
-  color: #00ff88;
-  animation: glitch-before 0.18s steps(1) 2 forwards;
-}
-.glitch-active::after {
-  color: #00c8ff;
-  animation: glitch-after 0.18s steps(1) 2 forwards;
+.blink { animation: blink 1s step-end infinite; }
+
+/* Fade up */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Signal flicker for live indicators */
-@keyframes signal-flicker {
-  0%, 90%, 100% { opacity: 1; }
-  92% { opacity: 0.3; }
-  94% { opacity: 1; }
-  96% { opacity: 0.1; }
-  98% { opacity: 1; }
-}
-.signal-flicker {
-  animation: signal-flicker 4s ease-in-out infinite;
-}
-
-/* Hide default cursor on desktop */
+/* Hide default cursor */
 @media (pointer: fine) {
   * { cursor: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

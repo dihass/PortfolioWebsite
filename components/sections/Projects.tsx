@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
-import GlitchHeading from "@/components/ui/GlitchHeading";
 
 type Project = {
   number: string;
@@ -11,9 +10,12 @@ type Project = {
   description: string;
   stack: string[];
   badge: string;
-  badgeColor: "purple" | "cyan" | "muted";
-  darvincode?: boolean;
+  windowTitle: string;
+  accentBar: string;
+  accentBody: string;
+  rotation: number;
   links: { label: string; href: string; icon: "github" | "external" }[];
+  wide?: boolean;
 };
 
 const projects: Project[] = [
@@ -21,179 +23,139 @@ const projects: Project[] = [
     number: "01",
     title: "Leakage-Free Sepsis Detection",
     description:
-      "Multimodal deep learning system that predicts sepsis onset 6 hours before it occurs with zero data leakage. Combines a two-layer LSTM on 18-hour EHR time-series with Bio_ClinicalBERT clinical note embeddings, fused via a meta-learner — achieving AUROC 0.9283 on 26,607 ICU patients from MIMIC-IV.",
-    stack: ["Python", "PyTorch", "LSTM", "Bio_ClinicalBERT", "MIMIC-IV", "SHAP", "Streamlit"],
-    badge: "Research · FYP 2026",
-    badgeColor: "purple",
+      "Multimodal deep learning system predicting sepsis onset 6 hours before it occurs. Two-layer LSTM on 18-hour EHR time-series + Bio_ClinicalBERT clinical notes, fused via meta-learner. AUROC 0.9283 on 26,607 ICU patients from MIMIC-IV. Zero data leakage.",
+    stack: ["Python", "PyTorch", "LSTM", "MIMIC-IV", "SHAP", "Streamlit"],
+    badge: "🧬 Research · FYP 2026",
+    windowTitle: "sepsis-detection.py",
+    accentBar: "#c8d4ff",
+    accentBody: "#eef1ff",
+    rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/LF-MSP", icon: "github" }],
+    wide: true,
   },
   {
     number: "02",
     title: "The Seascape Sri Lanka",
     description:
-      "Full hospitality website built for a real client through DarvinCode — boutique coastal resort in Weligama Bay. Rooms, gallery, TripAdvisor and Booking.com integrations, Framer Motion throughout.",
-    stack: ["Next.js", "TypeScript", "Framer Motion", "Tailwind CSS"],
-    badge: "Client Work · Live",
-    badgeColor: "cyan",
-    darvincode: true,
+      "Hospitality website for a real client — boutique coastal resort in Weligama Bay. Rooms, gallery, booking integrations, Framer Motion throughout.",
+    stack: ["Next.js", "TypeScript", "Tailwind", "Framer Motion"],
+    badge: "🏖️ Client Work · Live",
+    windowTitle: "seascape-client.tsx",
+    accentBar: "#a8f0d8",
+    accentBody: "#eefcf5",
+    rotation: 1.5,
     links: [],
   },
   {
     number: "03",
     title: "PropVRty",
     description:
-      "Real estate marketplace with immersive 360° virtual property tours. Browse listings and walk through properties without leaving your browser.",
+      "Real estate marketplace with immersive 360° virtual property tours — browse listings and walk through properties without leaving your browser.",
     stack: ["MongoDB", "Express", "React", "Node.js", "Panolens.js"],
-    badge: "Live",
-    badgeColor: "cyan",
+    badge: "🏠 Web App · Live",
+    windowTitle: "propvrty-app.jsx",
+    accentBar: "#ffc0a8",
+    accentBody: "#fff4ef",
+    rotation: -2,
     links: [{ label: "Live Demo", href: "https://prop-vr-ty.vercel.app/", icon: "external" }],
   },
   {
     number: "04",
     title: "LocateLink",
     description:
-      "Send a unique link to anyone — when they open it, you instantly see their exact location on an interactive map. Built with real-time session management via Upstash Redis.",
-    stack: ["Next.js", "TypeScript", "Upstash Redis", "Leaflet", "UUID"],
-    badge: "Private",
-    badgeColor: "muted",
+      "Send a unique link — when opened, you instantly see their exact GPS location on an interactive map. Real-time via Upstash Redis.",
+    stack: ["Next.js", "TypeScript", "Upstash Redis", "Leaflet"],
+    badge: "📍 Utility · Private",
+    windowTitle: "locate-link.ts",
+    accentBar: "#f9d840",
+    accentBody: "#fffce8",
+    rotation: 1,
     links: [],
   },
   {
     number: "05",
     title: "WeatherDashboard",
     description:
-      "Native iOS app delivering real-time weather and an interactive MapKit explorer of nearby tourist attractions, with local SwiftData persistence.",
+      "Native iOS app — real-time weather + interactive MapKit explorer of nearby tourist attractions, with local SwiftData persistence.",
     stack: ["Swift", "SwiftUI", "MapKit", "CoreLocation", "SwiftData"],
-    badge: "Mobile · iOS",
-    badgeColor: "purple",
+    badge: "📱 iOS · Mobile",
+    windowTitle: "WeatherApp.swift",
+    accentBar: "#ffb8d0",
+    accentBody: "#fff0f5",
+    rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/WeatherDashboard", icon: "github" }],
   },
 ];
 
-const cardVariants = {
-  rest: { boxShadow: "0 0 0px rgba(0,200,255,0)", y: 0 },
-  hover: { boxShadow: "0 0 45px rgba(0,200,255,0.12)", y: -5 },
-};
-const scanVariants = {
-  rest: { y: "-100%", opacity: 0 },
-  hover: { y: "200%", opacity: [0, 0.7, 0.7, 0], transition: { duration: 0.45, ease: "easeOut" } },
-};
-const bracketVariants = {
-  rest: { opacity: 0 },
-  hover: { opacity: 1, transition: { duration: 0.2 } },
-};
-
-function TiltCard({ project, delay }: { project: Project; delay: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), { stiffness: 200, damping: 30 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-6, 6]), { stiffness: 200, damping: 30 });
-
-  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  }
-  function onMouseLeave() { x.set(0); y.set(0); }
-
-  const badgeClass =
-    project.badgeColor === "purple" ? "text-[#a855f7] border-[#a855f7]/30 bg-[#a855f7]/5"
-    : project.badgeColor === "cyan"   ? "text-[#00c8ff] border-[#00c8ff]/30 bg-[#00c8ff]/5"
-    : "text-[#4a7090] border-[#162035] bg-[#090f1e]";
-
+function OSProjectCard({ project, delay }: { project: Project; delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1.0, delay, ease: [0.16, 1, 0.3, 1] }}
-      style={{ rotateX, rotateY, transformPerspective: 800 }}
-      ref={cardRef}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      variants={cardVariants}
-      whileHover="hover"
-      className="group relative bg-[#090f1e] border border-[#162035] p-6 md:p-8 rounded-sm cursor-default overflow-hidden transition-colors duration-300 hover:border-[#00c8ff]/22"
+      initial={{ opacity: 0, y: 50, rotate: project.rotation }}
+      whileInView={{ opacity: 1, y: 0, rotate: project.rotation }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ rotate: 0, y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
+      style={{ transformOrigin: "center bottom" }}
+      className="os-window cursor-default"
     >
-      {/* HUD corner brackets — appear on hover */}
-      {(["top-2 left-2 border-t border-l", "top-2 right-2 border-t border-r", "bottom-2 left-2 border-b border-l", "bottom-2 right-2 border-b border-r"] as const).map((cls, i) => (
-        <motion.div key={i} variants={bracketVariants} className={`absolute w-5 h-5 border-[#00c8ff]/50 pointer-events-none ${cls}`} />
-      ))}
+      {/* Window chrome */}
+      <div className="os-window-bar" style={{ background: project.accentBar }}>
+        <div className="os-window-dots">
+          <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+          <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+          <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+        </div>
+        <span className="os-window-title">{project.windowTitle}</span>
+      </div>
 
-      {/* Scan line */}
-      <motion.div
-        variants={scanVariants}
-        className="absolute left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(to right, transparent, rgba(0,200,255,0.55), transparent)" }}
-      />
-
-      {/* Number watermark */}
-      <motion.span
-        className="absolute top-4 right-6 font-spectral text-7xl text-[#162035]/70 select-none leading-none pointer-events-none"
-        variants={{ rest: { opacity: 0.4 }, hover: { opacity: 0.7 } }}
-      >
-        {project.number}
-      </motion.span>
-
-      <div className="relative z-10">
-        <div className="flex flex-wrap items-center gap-2 mb-5">
-          <span className={`inline-block font-mono text-[9px] tracking-[0.16em] uppercase px-2.5 py-1 border rounded-sm ${badgeClass}`}>
-            {project.badge}
+      {/* Window body */}
+      <div className="p-6" style={{ background: project.accentBody }}>
+        {/* Header row */}
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="font-silkscreen text-[9px] tracking-wider text-[#bdb0a0] mb-1.5">
+              {project.badge}
+            </p>
+            <h3 className="font-fraunces font-bold text-xl text-[#1c1714] leading-tight">
+              {project.title}
+            </h3>
+          </div>
+          <span className="font-fraunces font-black text-5xl text-[#1c1714]/[0.07] leading-none select-none">
+            {project.number}
           </span>
-          {project.darvincode && (
-            <motion.a
-              href="https://darvincode.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.14em] uppercase px-2.5 py-1 border border-[#00c8ff]/40 text-[#00c8ff] rounded-sm"
-              whileHover={{ backgroundColor: "rgba(0,200,255,0.1)", borderColor: "rgba(0,200,255,0.8)" }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <span className="w-1 h-1 rounded-full bg-[#00c8ff] signal-flicker" style={{ boxShadow: "0 0 4px rgba(0,200,255,1)" }} />
-              DarvinCode
-            </motion.a>
-          )}
         </div>
 
-        <h3 className="font-spectral text-xl md:text-2xl text-[#e2f0ff] mb-3 leading-tight">
-          {project.title}
-        </h3>
-
-        <p className="font-urbanist text-sm text-[#4a7090] leading-relaxed mb-6">
+        <p className="font-jakarta text-sm text-[#7a6f68] leading-relaxed mb-5">
           {project.description}
         </p>
 
-        <div className="flex flex-wrap gap-1.5 mb-6">
-          {project.stack.map((tech, i) => (
-            <motion.span
+        {/* Tech tags */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {project.stack.map((tech) => (
+            <span
               key={tech}
-              initial={{ opacity: 0, scale: 0.85 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: delay + 0.1 + i * 0.035 }}
-              className="font-mono text-[10px] text-[#4a7090] bg-[#0e1628] border border-[#162035] px-2.5 py-1 rounded-sm"
+              className="font-silkscreen text-[9px] tracking-wider px-2.5 py-1 rounded-md bg-[#1c1714]/[0.06] text-[#4a4238]"
             >
               {tech}
-            </motion.span>
+            </span>
           ))}
         </div>
 
+        {/* Links */}
         {project.links.length > 0 && (
-          <div className="flex gap-4">
+          <div className="flex gap-4 border-t border-[#1c1714]/[0.08] pt-4">
             {project.links.map((link) => (
               <motion.a
                 key={link.href}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 font-urbanist text-sm text-[#4a7090]"
-                whileHover={{ color: "#00c8ff", x: 3 }}
+                className="flex items-center gap-1.5 font-jakarta text-sm font-medium text-[#0d7f60]"
+                whileHover={{ x: 3 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
                 {link.icon === "github" ? <FiGithub className="w-4 h-4" /> : <FiExternalLink className="w-4 h-4" />}
-                {link.label}
+                {link.label} →
               </motion.a>
             ))}
           </div>
@@ -204,34 +166,60 @@ function TiltCard({ project, delay }: { project: Project; delay: number }) {
 }
 
 export default function Projects() {
-  const ref = useRef(null);
+  const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [featured, ...rest] = projects;
+  const [p01, p02, p03, p04, p05] = projects;
 
   return (
-    <section id="projects" ref={ref} className="py-32 relative overflow-hidden">
-      {/* Digital network atmosphere */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 75% 55% at 60% 60%, rgba(0,200,255,0.025) 0%, transparent 65%)" }} />
+    <section id="projects" ref={ref} className="py-24 relative overflow-hidden bg-cream">
+      {/* Subtle dot grid background */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
+        style={{
+          backgroundImage: "radial-gradient(#1c1714 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <div className="mb-16">
-          <motion.p
+        {/* Header */}
+        <div className="mb-14">
+          <motion.div
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
+            className="flex items-center gap-4 mb-4"
           >
-            {'// SELECTED WORK'}
-          </motion.p>
-          <GlitchHeading text="Shipped" subtitle="作品" inView={inView} delay={0.1} />
+            <span className="section-label">What I&apos;ve Built</span>
+            <div className="flex-1 h-px bg-[#ddd0c0]" />
+            <span className="font-silkscreen text-[9px] text-[#bdb0a0] tracking-wider">
+              {projects.length} PROJECTS
+            </span>
+          </motion.div>
+
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              animate={inView ? { y: 0 } : {}}
+              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-fraunces font-black text-display-lg text-[#1c1714]"
+            >
+              Shipped.
+            </motion.h2>
+          </div>
         </div>
 
-        <div className="mb-6">
-          <TiltCard project={featured} delay={0.1} />
+        {/* Row 1: featured (wide) + card */}
+        <div className="grid md:grid-cols-[2fr_1fr] gap-5 mb-5">
+          <OSProjectCard project={p01} delay={0.1} />
+          <OSProjectCard project={p02} delay={0.2} />
         </div>
-        <div className="grid md:grid-cols-2 gap-6">
-          {rest.map((p, i) => (
-            <TiltCard key={p.number} project={p} delay={0.1 + (i + 1) * 0.1} />
-          ))}
+
+        {/* Row 2: three cards */}
+        <div className="grid md:grid-cols-3 gap-5">
+          <OSProjectCard project={p03} delay={0.3} />
+          <OSProjectCard project={p04} delay={0.4} />
+          <OSProjectCard project={p05} delay={0.5} />
         </div>
       </div>
     </section>

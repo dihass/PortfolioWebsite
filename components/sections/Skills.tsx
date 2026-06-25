@@ -2,119 +2,206 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import GlitchHeading from "@/components/ui/GlitchHeading";
 import {
   SiJavascript, SiTypescript, SiPython, SiSwift,
   SiReact, SiNextdotjs, SiNodedotjs, SiTailwindcss,
-  SiMongodb, SiPostgresql, SiGit, SiDocker,
-  SiVercel, SiPytorch,
+  SiMongodb, SiPostgresql, SiGit, SiDocker, SiVercel, SiPytorch,
 } from "react-icons/si";
 import { FaJava, FaDatabase } from "react-icons/fa";
 
-const groups = [
+const TICKER_ROW = [
+  "JAVA", "PYTHON", "JAVASCRIPT", "TYPESCRIPT", "SWIFT", "SQL",
+  "REACT", "NEXT.JS", "NODE.JS", "PYTORCH", "TAILWIND", "MONGODB",
+  "POSTGRESQL", "DOCKER", "GIT", "VERCEL", "REST APIS", "AGILE",
+];
+
+const bento = [
   {
-    title: "Languages", jp: "言語",
-    skills: [
-      { name: "Java", icon: FaJava }, { name: "Python", icon: SiPython },
-      { name: "JavaScript", icon: SiJavascript }, { name: "TypeScript", icon: SiTypescript },
-      { name: "Swift", icon: SiSwift }, { name: "SQL", icon: FaDatabase },
+    id: "fullstack",
+    label: "FULL STACK",
+    emoji: "⚡",
+    bg: "#9fead3",
+    text: "#0d7f60",
+    col: "md:col-span-2",
+    items: [
+      { name: "React",       Icon: SiReact       },
+      { name: "Next.js",     Icon: SiNextdotjs   },
+      { name: "Node.js",     Icon: SiNodedotjs   },
+      { name: "TypeScript",  Icon: SiTypescript   },
+      { name: "Tailwind",    Icon: SiTailwindcss  },
     ],
   },
   {
-    title: "Frameworks & Tools", jp: "ツール",
-    skills: [
-      { name: "React", icon: SiReact }, { name: "Next.js", icon: SiNextdotjs },
-      { name: "Node.js", icon: SiNodedotjs }, { name: "PyTorch", icon: SiPytorch },
-      { name: "Tailwind CSS", icon: SiTailwindcss }, { name: "MongoDB", icon: SiMongodb },
-      { name: "PostgreSQL", icon: SiPostgresql }, { name: "Docker", icon: SiDocker },
-      { name: "Git", icon: SiGit }, { name: "Vercel", icon: SiVercel },
+    id: "aiml",
+    label: "AI & ML",
+    emoji: "🧬",
+    bg: "#dce4ff",
+    text: "#3440c0",
+    col: "md:col-span-1",
+    items: [
+      { name: "PyTorch",  Icon: SiPytorch   },
+      { name: "Python",   Icon: SiPython    },
     ],
   },
   {
-    title: "Core Competencies", jp: "能力",
-    skills: [
-      { name: "REST APIs", icon: null }, { name: "System Design", icon: null },
-      { name: "OOP", icon: null }, { name: "Agile / Scrum", icon: null },
-      { name: "Auth & AuthZ", icon: null }, { name: "Microservices", icon: null },
-      { name: "Performance Opt.", icon: null }, { name: "Test Automation", icon: null },
+    id: "mobile",
+    label: "MOBILE",
+    emoji: "📱",
+    bg: "#ffd0bc",
+    text: "#8b3010",
+    col: "md:col-span-1",
+    items: [
+      { name: "Swift",    Icon: SiSwift },
+    ],
+  },
+  {
+    id: "languages",
+    label: "LANGUAGES",
+    emoji: "🔤",
+    bg: "#f9c840",
+    text: "#7a4800",
+    col: "md:col-span-2",
+    items: [
+      { name: "Java",        Icon: FaJava       },
+      { name: "Python",      Icon: SiPython      },
+      { name: "JavaScript",  Icon: SiJavascript  },
+      { name: "TypeScript",  Icon: SiTypescript  },
+      { name: "Swift",       Icon: SiSwift       },
+      { name: "SQL",         Icon: FaDatabase    },
+    ],
+  },
+  {
+    id: "infra",
+    label: "INFRA & TOOLS",
+    emoji: "🛠️",
+    bg: "#1c1714",
+    text: "#f9f5ef",
+    col: "md:col-span-1",
+    items: [
+      { name: "Docker",     Icon: SiDocker   },
+      { name: "Git",        Icon: SiGit      },
+      { name: "PostgreSQL", Icon: SiPostgresql},
+      { name: "MongoDB",    Icon: SiMongodb  },
+      { name: "Vercel",     Icon: SiVercel   },
     ],
   },
 ];
 
-function SkillBadge({ name, icon: Icon, delay }: { name: string; icon: React.ComponentType<{ className?: string }> | null; delay: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -4, boxShadow: "0 0 20px rgba(0,200,255,0.2)", borderColor: "rgba(0,200,255,0.4)" }}
-      className="flex items-center gap-2 px-4 py-2.5 bg-[#090f1e] border border-[#162035] rounded-sm cursor-default transition-colors duration-200"
-    >
-      {Icon && <Icon className="w-4 h-4 text-[#00c8ff] flex-shrink-0" />}
-      <span className="font-urbanist text-sm text-[#e2f0ff]">{name}</span>
-    </motion.div>
-  );
-}
-
 export default function Skills() {
-  const ref = useRef(null);
+  const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="skills" ref={ref} className="py-32 relative overflow-hidden">
-      {/* Digital world code atmosphere */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 80% 40%, rgba(0,255,136,0.03) 0%, transparent 65%)" }} />
+    <section id="skills" ref={ref} className="py-24 relative overflow-hidden bg-[#f0e9de]">
+
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <div className="mb-16">
+        {/* Header */}
+        <div className="mb-14">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="flex items-center gap-3 mb-3"
+            className="flex items-center gap-4 mb-4"
           >
-            <p className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase">
-              {'// TECHNICAL STACK'}
-            </p>
-            <motion.span
-              className="font-mono text-[8px] text-[#00ff88]/50 tracking-[0.15em] uppercase"
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 1.8, repeat: Infinity }}
-            >
-              SYS: ONLINE
-            </motion.span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] signal-flicker" style={{ boxShadow: "0 0 6px rgba(0,255,136,0.9)" }} />
+            <span className="section-label">What I Know</span>
+            <div className="flex-1 h-px bg-[#ddd0c0]" />
           </motion.div>
-          <GlitchHeading text="Arsenal" subtitle="武器庫" inView={inView} delay={0.1} />
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              animate={inView ? { y: 0 } : {}}
+              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-fraunces font-black text-display-lg text-[#1c1714]"
+            >
+              Arsenal.
+            </motion.h2>
+          </div>
         </div>
 
-        <div className="space-y-14">
-          {groups.map((group, gi) => (
-            <div key={group.title}>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.7, delay: gi * 0.1 }}
-                className="flex items-center gap-3 mb-6"
-              >
-                <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#4a7090] whitespace-nowrap">{group.title}</span>
-                <span className="font-spectral italic text-sm text-[#162035]">{group.jp}</span>
-                <motion.div
-                  className="flex-1 h-px bg-[#162035]"
-                  initial={{ scaleX: 0, transformOrigin: "left" }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 1.0, delay: gi * 0.1 + 0.18, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </motion.div>
-              <div className="flex flex-wrap gap-2.5">
-                {group.skills.map((s, si) => (
-                  <SkillBadge key={s.name} name={s.name} icon={s.icon} delay={gi * 0.08 + si * 0.05} />
+        {/* Bento grid — 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {bento.map((cell, i) => (
+            <motion.div
+              key={cell.id}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className={`${cell.col} rounded-xl p-6 relative overflow-hidden`}
+              style={{ background: cell.bg }}
+            >
+              {/* Label + emoji */}
+              <div className="flex items-center justify-between mb-5">
+                <span
+                  className="font-silkscreen text-[9px] tracking-widest uppercase font-bold"
+                  style={{ color: cell.text }}
+                >
+                  {cell.label}
+                </span>
+                <span className="text-xl">{cell.emoji}</span>
+              </div>
+
+              {/* Icons + names */}
+              <div className="flex flex-wrap gap-2">
+                {cell.items.map(({ name, Icon }) => (
+                  <div
+                    key={name}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                    style={{ background: "rgba(255,255,255,0.35)" }}
+                  >
+                    <Icon className="w-3.5 h-3.5" style={{ color: cell.text }} />
+                    <span
+                      className="font-jakarta text-sm font-medium"
+                      style={{ color: cell.text }}
+                    >
+                      {name}
+                    </span>
+                  </div>
                 ))}
               </div>
-            </div>
+
+              {/* Large background number */}
+              <span
+                className="absolute -bottom-2 -right-2 font-fraunces font-black text-8xl leading-none select-none pointer-events-none"
+                style={{ color: "rgba(0,0,0,0.05)" }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </motion.div>
           ))}
+        </div>
+
+        {/* Competencies row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="rounded-xl border-2 border-[#ddd0c0] p-5 bg-cream"
+        >
+          <p className="font-silkscreen text-[9px] tracking-widest text-[#bdb0a0] uppercase mb-3">CORE COMPETENCIES</p>
+          <div className="flex flex-wrap gap-2">
+            {["REST APIs", "System Design", "OOP", "Agile / Scrum", "Auth & AuthZ",
+              "Microservices", "Performance Optimisation", "Test Automation", "CI/CD"].map((c) => (
+              <span key={c} className="font-jakarta text-sm text-[#4a4238] px-3 py-1 bg-[#f0e9de] rounded-lg">
+                {c}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom ticker — reversed direction */}
+      <div className="mt-10 border-y border-[#ddd0c0] overflow-hidden py-2.5">
+        <div className="flex">
+          <div className="animate-ticker-right flex whitespace-nowrap gap-0">
+            {[...TICKER_ROW, ...TICKER_ROW, ...TICKER_ROW, ...TICKER_ROW].map((item, i) => (
+              <span key={i} className="font-silkscreen text-[9px] tracking-widest text-[#bdb0a0] mx-6">
+                {item} <span className="text-[#9fead3]">✦</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

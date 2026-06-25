@@ -10,9 +10,9 @@ const roles = [
 ];
 
 export default function TypewriterText() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex]       = useState(0);
   const [displayed, setDisplayed] = useState("");
-  const [deleting, setDeleting] = useState(false);
+  const [deleting, setDeleting]   = useState(false);
 
   useEffect(() => {
     const current = roles[index];
@@ -33,7 +33,7 @@ export default function TypewriterText() {
   }, [displayed, deleting, index]);
 
   return (
-    <span className="text-[#00c8ff]">
+    <span className="text-[#0d7f60]">
       {displayed}
       <span className="animate-pulse">|</span>
     </span>

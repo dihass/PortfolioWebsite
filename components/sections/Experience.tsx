@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import GlitchHeading from "@/components/ui/GlitchHeading";
 
 const timeline = [
   {
@@ -11,10 +10,17 @@ const timeline = [
     org: "IFS",
     location: "Colombo, Sri Lanka",
     type: "work",
+    emoji: "🏢",
+    bg: "#1c1714",
+    barBg: "#2e2926",
+    textColor: "#f9f5ef",
+    mutedColor: "#bdb0a0",
+    accentColor: "#9fead3",
+    rotation: -1.5,
     points: [
       "Developed enterprise features using Marble frontend and PL/SQL backend",
       "Investigated and resolved production bugs improving system stability",
-      "Optimised backend queries to improve performance across key workflows",
+      "Optimised backend queries for performance across key workflows",
       "Built TAR automation tests for feature validation in Agile sprints",
     ],
   },
@@ -24,110 +30,125 @@ const timeline = [
     org: "IIT / University of Westminster",
     location: "Colombo, Sri Lanka",
     type: "education",
+    emoji: "🎓",
+    bg: "#fef8e0",
+    barBg: "#f9e070",
+    textColor: "#1c1714",
+    mutedColor: "#7a6f68",
+    accentColor: "#7a4800",
+    rotation: 1.5,
     points: [
-      "Final Year Project: Multimodal AI for early sepsis detection — AUROC 0.9283",
-      "Modules: Distributed Systems, Security, Mobile Development, AI & ML",
+      "FYP: Multimodal AI for early sepsis detection — AUROC 0.9283",
+      "Modules: Distributed Systems, Security, Mobile Dev, AI & ML",
     ],
   },
 ];
 
 export default function Experience() {
-  const ref = useRef(null);
+  const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const lineRef = useRef(null);
-  const lineInView = useInView(lineRef, { once: true, margin: "-60px" });
 
   return (
-    <section id="experience" ref={ref} className="py-32 relative overflow-hidden">
-      {/* Consciousness atmosphere — gold consciousness on dark field */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 70% at 50% 30%, rgba(200,169,78,0.03) 0%, transparent 65%)" }} />
+    <section id="experience" ref={ref} className="py-24 relative overflow-hidden bg-cream">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <div className="mb-16">
-          <motion.p
+        {/* Header */}
+        <div className="mb-14">
+          <motion.div
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="font-mono text-xs tracking-[0.22em] text-[#00c8ff]/60 uppercase mb-3"
+            className="flex items-center gap-4 mb-4"
           >
-            {'// BACKGROUND'}
-          </motion.p>
-          <GlitchHeading text="Journey" subtitle="経歴" inView={inView} delay={0.1} />
+            <span className="section-label">Story So Far</span>
+            <div className="flex-1 h-px bg-[#ddd0c0]" />
+          </motion.div>
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              animate={inView ? { y: 0 } : {}}
+              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-fraunces font-black text-display-lg text-[#1c1714]"
+            >
+              Journey.
+            </motion.h2>
+          </div>
         </div>
 
-        <div className="relative" ref={lineRef}>
-          {/* Timeline line draws down */}
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={lineInView ? { scaleY: 1 } : { scaleY: 0 }}
-            transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: "top" }}
-            className="absolute left-0 md:left-[200px] top-0 bottom-0 w-px bg-gradient-to-b from-[#00c8ff] via-[#c8a94e]/25 to-transparent"
-          />
-
-          <div className="space-y-16">
-            {timeline.map((item, i) => (
-              <motion.div
-                key={item.role}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 1.0, delay: i * 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="relative pl-8 md:pl-0 md:grid md:grid-cols-[200px_1fr] md:gap-10"
-              >
-                {/* Dot */}
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.6, delay: i * 0.25 + 0.4, type: "spring", stiffness: 260 }}
-                  className={`absolute left-[-4px] md:left-[196px] top-1.5 w-2.5 h-2.5 rounded-full z-10 ${item.type === "work" ? "bg-[#00c8ff]" : "bg-[#c8a94e]"}`}
-                  style={{ boxShadow: item.type === "work" ? "0 0 12px rgba(0,200,255,0.7)" : "0 0 12px rgba(200,169,78,0.65)" }}
-                />
-
-                {/* Year */}
-                <div className="mb-3 md:mb-0 md:text-right md:pr-10 pt-0.5">
-                  <span className="font-mono text-xs text-[#4a7090]">{item.year}</span>
-                  <span className={`block font-mono text-[9px] tracking-[0.14em] uppercase mt-1 ${item.type === "work" ? "text-[#00c8ff]" : "text-[#c8a94e]"}`}>
-                    {item.type === "work" ? "// Work" : "[ Education ]"}
-                  </span>
+        {/* Journal cards — scattered, rotated */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+          {timeline.map((item, i) => (
+            <motion.div
+              key={item.role}
+              initial={{ opacity: 0, y: 50, rotate: item.rotation }}
+              whileInView={{ opacity: 1, y: 0, rotate: item.rotation }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 1.0, delay: i * 0.25, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ rotate: 0, y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
+              style={{ transformOrigin: "center bottom" }}
+              className="rounded-xl overflow-hidden shadow-md"
+            >
+              {/* Card header bar (like OS window bar) */}
+              <div className="px-5 py-3 flex items-center justify-between" style={{ background: item.barBg }}>
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/70" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/70" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]/70" />
                 </div>
+                <span className="font-silkscreen text-[9px] tracking-wider" style={{ color: item.mutedColor }}>
+                  {item.year}
+                </span>
+                <span className="text-lg">{item.emoji}</span>
+              </div>
 
-                {/* Card */}
-                <motion.div
-                  whileHover={{ borderColor: item.type === "work" ? "rgba(0,200,255,0.25)" : "rgba(200,169,78,0.22)", x: 4 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="relative bg-[#090f1e] border border-[#162035] p-6 rounded-sm overflow-hidden"
+              {/* Card body */}
+              <div className="p-6" style={{ background: item.bg }}>
+                <p
+                  className="font-silkscreen text-[9px] tracking-widest uppercase mb-2"
+                  style={{ color: item.accentColor }}
                 >
-                  {/* Scan on hover */}
-                  <motion.div
-                    className="absolute left-0 right-0 h-px pointer-events-none"
-                    style={{ background: item.type === "work" ? "linear-gradient(to right, transparent, rgba(0,200,255,0.4), transparent)" : "linear-gradient(to right, transparent, rgba(200,169,78,0.35), transparent)", top: 0 }}
-                    initial={{ y: 0, opacity: 0 }}
-                    whileHover={{ y: "100%", opacity: [0, 0.8, 0] }}
-                    transition={{ duration: 0.4 }}
-                  />
-                  <h3 className="font-spectral text-xl text-[#e2f0ff] mb-1">{item.role}</h3>
-                  <p className={`font-urbanist text-sm mb-1 ${item.type === "work" ? "text-[#00c8ff]" : "text-[#c8a94e]"}`}>{item.org}</p>
-                  <p className="font-mono text-[10px] text-[#2a4060] mb-5">{item.location}</p>
-                  <ul className="space-y-2">
-                    {item.points.map((p, pi) => (
-                      <motion.li
-                        key={p}
-                        className="font-urbanist text-sm text-[#4a7090] flex gap-3"
-                        initial={{ opacity: 0, x: -8 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, amount: 0.1 }}
-                        transition={{ delay: i * 0.2 + pi * 0.08 + 0.4 }}
-                      >
-                        <span className="text-[#00c8ff] mt-0.5 flex-shrink-0">—</span>
-                        {p}
-                      </motion.li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
+                  {item.type === "work" ? "WORK EXPERIENCE" : "EDUCATION"}
+                </p>
+
+                <h3
+                  className="font-fraunces font-bold text-2xl mb-1 leading-tight"
+                  style={{ color: item.textColor }}
+                >
+                  {item.role}
+                </h3>
+
+                <p
+                  className="font-jakarta text-base font-semibold mb-1"
+                  style={{ color: item.accentColor }}
+                >
+                  {item.org}
+                </p>
+
+                <p
+                  className="font-silkscreen text-[9px] tracking-wider mb-6"
+                  style={{ color: item.mutedColor }}
+                >
+                  {item.location}
+                </p>
+
+                <ul className="space-y-2.5">
+                  {item.points.map((point, pi) => (
+                    <motion.li
+                      key={pi}
+                      initial={{ opacity: 0, x: -8 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.2 + pi * 0.1 + 0.4 }}
+                      className="flex gap-3 font-jakarta text-sm"
+                      style={{ color: item.mutedColor }}
+                    >
+                      <span style={{ color: item.accentColor }} className="flex-shrink-0 mt-0.5">→</span>
+                      {point}
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

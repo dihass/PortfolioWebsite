@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 export default function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
+  const dotRef  = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,13 +52,13 @@ export default function Cursor() {
     <>
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full bg-[#00c8ff] pointer-events-none hidden [@media(pointer:fine)]:block"
-        style={{ willChange: "transform", boxShadow: "0 0 8px rgba(0,200,255,0.9)" }}
+        className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full pointer-events-none hidden [@media(pointer:fine)]:block"
+        style={{ willChange: "transform", backgroundColor: "#1c1714" }}
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 z-[9998] w-10 h-10 rounded-full border border-[#00c8ff]/45 pointer-events-none transition-all duration-300 hidden [@media(pointer:fine)]:block"
-        style={{ willChange: "transform" }}
+        className="fixed top-0 left-0 z-[9998] w-10 h-10 rounded-full pointer-events-none transition-all duration-300 hidden [@media(pointer:fine)]:block"
+        style={{ willChange: "transform", border: "1px solid rgba(28,23,20,0.3)" }}
       />
     </>
   );

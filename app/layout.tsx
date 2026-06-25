@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
-import { Spectral, Urbanist } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans, Silkscreen } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/ui/Cursor";
 import PageIntro from "@/components/ui/PageIntro";
 
-const spectral = Spectral({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
-  variable: "--font-spectral",
+  variable: "--font-fraunces",
   display: "swap",
 });
 
-const urbanist = Urbanist({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-urbanist",
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const silkscreen = Silkscreen({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-silkscreen",
   display: "swap",
 });
 
@@ -45,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spectral.variable} ${urbanist.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${jakarta.variable} ${silkscreen.variable}`}>
       <body>
         <PageIntro />
         <Cursor />
