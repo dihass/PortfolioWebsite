@@ -75,6 +75,7 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
   const bodyRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef(0);
   const cancelRef = useRef(false);
+  const timeoutIdsRef = useRef<number[]>([]);
   const positionsRef = useRef<LetterPos[]>([]);
   const burstIdRef = useRef(0);
   const poseRef = useRef<Pose>("idle");
@@ -169,9 +170,9 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
     burstIdRef.current += 1;
 
     setBursts((current) => [...current.slice(-10), { id, kind, x, y }]);
-    window.setTimeout(() => {
+    timeoutIdsRef.current.push(window.setTimeout(() => {
       setBursts((current) => current.filter((burst) => burst.id !== id));
-    }, kind === "compile" ? 1250 : 900);
+    }, kind === "compile" ? 1250 : 900));
   }, []);
 
   const pulseLetter = useCallback((index: number, mode: "land" | "compile" | "beam") => {
@@ -185,9 +186,9 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
     if (mode === "compile") letter.classList.add("mascot-letter-compile");
     if (mode === "beam") letter.classList.add("mascot-letter-beam");
 
-    window.setTimeout(() => {
+    timeoutIdsRef.current.push(window.setTimeout(() => {
       letter.classList.remove("mascot-letter-landed", "mascot-letter-compile", "mascot-letter-beam");
-    }, mode === "compile" ? W_SHOWCASE_MS : 820);
+    }, mode === "compile" ? W_SHOWCASE_MS : 820));
   }, [letterRefs]);
 
   const pulseSticker = useCallback((element: HTMLElement | null) => {
@@ -197,9 +198,9 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
     void element.offsetWidth;
     element.classList.add("mascot-sticker-landed");
 
-    window.setTimeout(() => {
+    timeoutIdsRef.current.push(window.setTimeout(() => {
       element.classList.remove("mascot-sticker-landed");
-    }, 900);
+    }, 900));
   }, []);
 
   const dropTo = useCallback(
@@ -444,6 +445,8 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
 
     return () => {
       window.clearTimeout(timer);
+      timeoutIdsRef.current.forEach(window.clearTimeout);
+      timeoutIdsRef.current = [];
       cancelRef.current = true;
       cancelAnimationFrame(rafRef.current);
     };

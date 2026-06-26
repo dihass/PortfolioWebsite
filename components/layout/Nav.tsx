@@ -63,7 +63,7 @@ export default function Nav() {
           {/* Right: availability + resume */}
           <div className="hidden md:flex items-center gap-3">
             <div className="flex items-center gap-2 font-silkscreen text-[9px] text-[#0d7f60] tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-[#0d7f60] pulse-dot" />
+              <span className="w-2 h-2 rounded-full bg-[#0d7f60] animate-pulse-dot" />
               OPEN TO HIRE
             </div>
             <a
@@ -112,7 +112,7 @@ export default function Nav() {
               </motion.button>
             ))}
             <div className="flex items-center gap-2 font-silkscreen text-[10px] text-[#0d7f60] tracking-wider mt-4">
-              <span className="w-2 h-2 rounded-full bg-[#0d7f60] pulse-dot" />
+              <span className="w-2 h-2 rounded-full bg-[#0d7f60] animate-pulse-dot" />
               OPEN TO HIRE
             </div>
           </motion.div>

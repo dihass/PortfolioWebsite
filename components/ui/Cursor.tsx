@@ -34,17 +34,23 @@ export default function Cursor() {
     };
     raf = requestAnimationFrame(tick);
 
-    const onEnter = () => ringRef.current?.classList.add("scale-[2.5]", "opacity-30");
-    const onLeave = () => ringRef.current?.classList.remove("scale-[2.5]", "opacity-30");
-
-    document.querySelectorAll("a, button").forEach(el => {
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
-    });
+    // Use event delegation — works for dynamic elements and has proper cleanup
+    const onOver = (e: MouseEvent) => {
+      if ((e.target as Element)?.closest("a, button"))
+        ringRef.current?.classList.add("scale-[2.5]", "opacity-30");
+    };
+    const onOut = (e: MouseEvent) => {
+      if ((e.target as Element)?.closest("a, button"))
+        ringRef.current?.classList.remove("scale-[2.5]", "opacity-30");
+    };
+    document.addEventListener("mouseover", onOver, true);
+    document.addEventListener("mouseout",  onOut,  true);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseover", onOver, true);
+      document.removeEventListener("mouseout",  onOut,  true);
     };
   }, []);
 

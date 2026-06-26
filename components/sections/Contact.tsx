@@ -40,7 +40,7 @@ export default function Contact() {
       ].map((s, i) => (
         <div
           key={i}
-          className="absolute w-2 h-2 rounded-full star-float"
+          className="absolute w-2 h-2 rounded-full animate-star-float"
           style={{
             top: s.top,
             left: s.left,
@@ -62,29 +62,32 @@ export default function Contact() {
           GET IN TOUCH →
         </motion.p>
 
-        {/* Big headline */}
-        <div className="overflow-hidden mb-6">
-          <motion.h2
-            initial={{ y: "100%" }}
-            animate={inView ? { y: 0 } : {}}
-            transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-fraunces font-black text-[#f9f5ef] leading-[0.9]"
-            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
-          >
-            Let&apos;s build
-          </motion.h2>
-        </div>
-        <div className="overflow-hidden mb-10">
-          <motion.h2
-            initial={{ y: "100%" }}
-            animate={inView ? { y: 0 } : {}}
-            transition={{ duration: 1.0, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="font-fraunces font-black text-[#9fead3] leading-[0.9]"
-            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
-          >
-            something.
-          </motion.h2>
-        </div>
+        {/* Big headline — single h2 with two animated lines */}
+        <h2
+          className="font-fraunces font-black leading-[0.9] mb-10"
+          style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+        >
+          <div className="overflow-hidden mb-1">
+            <motion.span
+              initial={{ y: "100%" }}
+              animate={inView ? { y: 0 } : {}}
+              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="block text-[#f9f5ef]"
+            >
+              Let&apos;s build
+            </motion.span>
+          </div>
+          <div className="overflow-hidden">
+            <motion.span
+              initial={{ y: "100%" }}
+              animate={inView ? { y: 0 } : {}}
+              transition={{ duration: 1.0, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="block text-[#9fead3]"
+            >
+              something.
+            </motion.span>
+          </div>
+        </h2>
 
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -141,7 +144,7 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 1.3 }}
           className="font-silkscreen text-[9px] tracking-widest text-[#4a4238] uppercase mt-16"
         >
-          Based in Colombo, Sri Lanka 🌴 · Available remotely worldwide
+          Based in Colombo, Sri Lanka <span aria-hidden="true">🌴</span> · Available remotely worldwide
         </motion.p>
       </div>
     </section>

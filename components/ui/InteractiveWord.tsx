@@ -2,6 +2,7 @@
 
 import { type CSSProperties, useEffect, useRef } from "react";
 import { registerParticle, unregisterParticle } from "./particleRegistry";
+import { hexToRgb, lerpColor } from "@/lib/color";
 
 interface InteractiveWordProps {
   text: string;
@@ -35,20 +36,6 @@ type ParticleBuffers = {
   size:  Float32Array;
 };
 
-function lerpColor(
-  from: [number, number, number],
-  to:   [number, number, number],
-  t:    number,
-): string {
-  const tt = Math.max(0, Math.min(1, t));
-  return `rgb(${Math.round(from[0] + (to[0] - from[0]) * tt)},${Math.round(from[1] + (to[1] - from[1]) * tt)},${Math.round(from[2] + (to[2] - from[2]) * tt)})`;
-}
-
-function hexToRgb(hex: string): [number, number, number] {
-  const clean = hex.replace("#", "");
-  const v = parseInt(clean.length === 3 ? clean.split("").map(c => c + c).join("") : clean, 16);
-  return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
-}
 
 export default function InteractiveWord({
   text,
@@ -127,12 +114,15 @@ export default function InteractiveWord({
       sampleCtx.fillText(text, x, baseline);
 
       const image = sampleCtx.getImageData(0, 0, sampler.width, sampler.height);
+      // Release sampler immediately — we only need the pixel data, not the canvas
+      sampler.width = 0; sampler.height = 0;
+
       const gap   = Math.max(3, Math.round(fs / 42));
       const points: Array<[number, number, number]> = [];
 
-      for (let py = 0; py < sampler.height; py += gap * dpr) {
-        for (let px = 0; px < sampler.width; px += gap * dpr) {
-          const a = image.data[(Math.floor(py) * sampler.width + Math.floor(px)) * 4 + 3];
+      for (let py = 0; py < image.height; py += gap * dpr) {
+        for (let px = 0; px < image.width; px += gap * dpr) {
+          const a = image.data[(Math.floor(py) * image.width + Math.floor(px)) * 4 + 3];
           if (a > 80) points.push([px / dpr, py / dpr, a / 255]);
         }
       }
@@ -219,7 +209,7 @@ export default function InteractiveWord({
           particles.x[i]  += particles.vx[i];
           particles.y[i]  += particles.vy[i];
 
-          ctx.fillStyle  = lerpColor(hexToRgb(baseColor), hexToRgb(accentColor), heat);
+          ctx.fillStyle  = lerpColor(baseRgb, accentRgb, heat);
           ctx.globalAlpha = ea * (0.9 + heat * 0.1);
           ctx.beginPath();
           ctx.arc(

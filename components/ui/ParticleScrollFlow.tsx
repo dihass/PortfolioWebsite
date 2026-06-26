@@ -96,12 +96,20 @@ export default function ParticleScrollFlow() {
 
     let raf = 0, alive = true;
 
+    // ── Canvas sizing ─────────────────────────────────────────────────────────
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     resize();
-    window.addEventListener("resize", resize, { passive: true });
 
-    // ── Scroll anchors ────────────────────────────────────────────────────────
-    const getAnchors = () => {
+    // ── Scroll anchors — computed once and cached; only refreshed on resize ──
+    type Anchors = {
+      m01s: number; m01e: number;
+      m12s: number; m12e: number;
+      m23s: number; m23e: number;
+      fdOs: number; fdOe: number;
+    };
+    let cachedAnchors: Anchors | null = null;
+
+    const computeAnchors = (): Anchors | null => {
       const vp   = window.innerHeight;
       const proj = document.getElementById("projects");
       const skl  = document.getElementById("skills");
@@ -112,28 +120,27 @@ export default function ParticleScrollFlow() {
       const sT = skl .getBoundingClientRect().top + sy;
       const eT = exp .getBoundingClientRect().top + sy;
 
-      // m01s: the exact scroll position at which Engineer has fully left the viewport.
-      // Read the engineer canvas rect live so any layout shift is accounted for.
+      // m01s: scroll position where Engineer canvas bottom clears the viewport top
       const engRect = getParticle("engineer")?.getCanvasRect();
-      const m01s = engRect
-        ? engRect.bottom + sy   // canvas bottom in document space = viewport-scroll where it clears the top
-        : sy;                   // fallback: start immediately if no rect
+      const m01s = engRect ? engRect.bottom + sy : sy;
 
       return {
         m01s,
-        // Give the user at least 35vh of scroll to complete the flight before Projects arrives
         m01e: Math.max(m01s + vp * 0.35, pT - vp * 0.15),
-        // Projects → Skills
         m12s: pT + vp * 0.55,
         m12e: sT + vp * 0.08,
-        // Skills → Experience
         m23s: sT + vp * 0.55,
         m23e: eT + vp * 0.08,
-        // Fade out Journey
         fdOs: eT + vp * 0.85,
         fdOe: eT + vp * 1.6,
       };
     };
+
+    const onResize = () => {
+      resize();
+      cachedAnchors = computeAnchors(); // recompute on layout change
+    };
+    window.addEventListener("resize", onResize, { passive: true });
 
     // ── State ─────────────────────────────────────────────────────────────────
     const ms = { fromIdx: 0, toIdx: 0, progress: 0, canvasAlpha: 0 };
@@ -153,7 +160,7 @@ export default function ParticleScrollFlow() {
     const onScroll = () => {
       if (!alive || !built) return;
       const sy = window.scrollY;
-      const a  = getAnchors();
+      const a  = cachedAnchors;
       if (!a) return;
       const { m01s, m01e, m12s, m12e, m23s, m23e, fdOs, fdOe } = a;
 
@@ -227,6 +234,7 @@ export default function ParticleScrollFlow() {
       getParticle("arsenal")?.setAlpha(0);
       getParticle("journey")?.setAlpha(0);
 
+      cachedAnchors = computeAnchors(); // compute now that all handles are registered
       built = true;
       onScroll(); // sync immediately
     };
@@ -302,7 +310,7 @@ export default function ParticleScrollFlow() {
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", onScroll);
       IDS.forEach(id => getParticle(id)?.setAlpha(1));
     };

@@ -6,15 +6,14 @@ import PageIntro from "@/components/ui/PageIntro";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
+  weight: ["600", "700", "900"],
   variable: "--font-fraunces",
   display: "swap",
 });
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-jakarta",
   display: "swap",
 });
@@ -27,20 +26,27 @@ const silkscreen = Silkscreen({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://dihassathnindu.com"),
   icons: { icon: "/favicon.svg" },
   title: "Dihas Sathnindu — Software Engineer",
   description:
     "Software Engineer specialising in full-stack systems, backend optimisation, and mobile development. Open to junior SWE roles.",
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Dihas Sathnindu — Software Engineer",
     description:
       "Software Engineer specialising in full-stack systems, backend optimisation, and mobile development.",
     type: "website",
+    url: "https://dihassathnindu.com",
+    siteName: "Dihas Sathnindu",
   },
   twitter: {
     card: "summary_large_image",
     title: "Dihas Sathnindu — Software Engineer",
     description: "Software Engineer. Full stack, mobile, AI research.",
+  },
+  alternates: {
+    canonical: "https://dihassathnindu.com",
   },
 };
 

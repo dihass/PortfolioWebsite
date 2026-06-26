@@ -26,22 +26,57 @@ const config: Config = {
         "lavender-dark":  "#3440c0",
       },
       fontFamily: {
-        fraunces:  ["var(--font-fraunces)", "Georgia", "serif"],
-        jakarta:   ["var(--font-jakarta)", "system-ui", "sans-serif"],
+        fraunces:   ["var(--font-fraunces)", "Georgia", "serif"],
+        jakarta:    ["var(--font-jakarta)", "system-ui", "sans-serif"],
         silkscreen: ["var(--font-silkscreen)", "monospace"],
       },
       fontSize: {
-        "display-xl": ["clamp(3rem,8vw,7rem)",    { lineHeight: "1.0",  letterSpacing: "-0.025em" }],
-        "display-lg": ["clamp(2rem,5vw,4.5rem)",  { lineHeight: "1.05", letterSpacing: "-0.02em"  }],
-        "display-md": ["clamp(1.5rem,3.5vw,2.75rem)", { lineHeight: "1.12", letterSpacing: "-0.015em" }],
+        "display-xl": ["clamp(3rem,8vw,7rem)",         { lineHeight: "1.0",  letterSpacing: "-0.025em" }],
+        "display-lg": ["clamp(2rem,5vw,4.5rem)",        { lineHeight: "1.05", letterSpacing: "-0.02em"  }],
+        "display-md": ["clamp(1.5rem,3.5vw,2.75rem)",  { lineHeight: "1.12", letterSpacing: "-0.015em" }],
       },
       animation: {
-        "marquee": "marquee 28s linear infinite",
+        "ticker-left":  "ticker-left  24s linear infinite",
+        "ticker-right": "ticker-right 24s linear infinite",
+        "marquee":      "marquee      28s linear infinite",
+        "spin-slow":    "spin-slow    14s linear infinite",
+        "star-float":   "star-float    3s ease-in-out infinite",
+        "float-left":   "float-left   3.5s ease-in-out infinite",
+        "float-right":  "float-right  4.2s ease-in-out infinite",
+        "pulse-dot":    "pulse-dot     2s ease-in-out infinite",
       },
       keyframes: {
-        marquee: {
+        "ticker-left": {
           from: { transform: "translateX(0)" },
           to:   { transform: "translateX(-50%)" },
+        },
+        "ticker-right": {
+          from: { transform: "translateX(-33.333%)" },
+          to:   { transform: "translateX(0)" },
+        },
+        "marquee": {
+          from: { transform: "translateX(0)" },
+          to:   { transform: "translateX(-50%)" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to:   { transform: "rotate(360deg)" },
+        },
+        "star-float": {
+          "0%, 100%": { opacity: "0.8", transform: "translateY(0) scale(1)" },
+          "50%":      { opacity: "1",   transform: "translateY(-12px) scale(1.1)" },
+        },
+        "float-left": {
+          "0%, 100%": { transform: "translateY(0px) rotate(-3deg)" },
+          "50%":      { transform: "translateY(-8px) rotate(-3deg)" },
+        },
+        "float-right": {
+          "0%, 100%": { transform: "translateY(0px) rotate(4deg)" },
+          "50%":      { transform: "translateY(-6px) rotate(4deg)" },
+        },
+        "pulse-dot": {
+          "0%, 100%": { opacity: "1",   boxShadow: "0 0 0 0 rgba(13,127,96,0.4)" },
+          "50%":      { opacity: "0.7", boxShadow: "0 0 0 5px rgba(13,127,96,0)" },
         },
       },
     },

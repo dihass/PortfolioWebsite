@@ -16,9 +16,9 @@ const STACK_TICKER = [
 ];
 
 const stickers: { label: string; Icon: IconType; bg: string; text: string; rotation: number; top?: string; bottom?: string; left?: string; right?: string; animation: string }[] = [
-  { label: "Building since 2022", Icon: BsWrench,  bg: "#f9c840", text: "#7a4800", rotation:  8, top: "0%",  right: "0%", animation: "float-right" },
-  { label: "SRI LANKA",           Icon: BsGeoAlt,  bg: "#9fead3", text: "#0d7f60", rotation: -7, top: "4%",  left: "0%",  animation: "float-left"  },
-  { label: "DarvinCode founder",  Icon: BsLightning, bg: "#ffd0bc", text: "#8b3010", rotation:  5, top: "45%", right: "0%", animation: "float-right" },
+  { label: "Building since 2022", Icon: BsWrench,  bg: "#f9c840", text: "#7a4800", rotation:  8, top: "0%",  right: "0%", animation: "animate-float-right" },
+  { label: "SRI LANKA",           Icon: BsGeoAlt,  bg: "#9fead3", text: "#0d7f60", rotation: -7, top: "4%",  left: "0%",  animation: "animate-float-left"  },
+  { label: "DarvinCode founder",  Icon: BsLightning, bg: "#ffd0bc", text: "#8b3010", rotation:  5, top: "45%", right: "0%", animation: "animate-float-right" },
 ];
 
 export default function Hero() {
@@ -128,7 +128,7 @@ export default function Hero() {
                 className="flex flex-wrap gap-2 mb-8"
               >
                 <span className="flex items-center gap-1.5 font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#c8f5e5] text-[#0d7f60]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0d7f60] pulse-dot inline-block" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0d7f60] animate-pulse-dot inline-block" />
                   AVAILABLE NOW
                 </span>
                 <span className="font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#fef8e0] text-[#7a4800]">
@@ -187,7 +187,7 @@ export default function Hero() {
                   {/* Spinning text ring */}
                   <svg
                     viewBox="0 0 200 200"
-                    className="absolute inset-0 w-full h-full spin-slow"
+                    className="absolute inset-0 w-full h-full animate-spin-slow"
                   >
                     <defs>
                       <path id="spinCircle" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />
@@ -203,6 +203,7 @@ export default function Hero() {
                       src="/about.jpg"
                       alt="Dihas Sathnindu"
                       fill
+                      sizes="240px"
                       className="object-cover object-top"
                       priority
                     />
@@ -251,7 +252,7 @@ export default function Hero() {
               ].map((star, i) => (
                 <motion.div
                   key={i}
-                  className="absolute rounded-full star-float"
+                  className="absolute rounded-full animate-star-float"
                   style={{
                     top: star.top,
                     left: star.left,
