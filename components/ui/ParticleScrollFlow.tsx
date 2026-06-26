@@ -88,8 +88,24 @@ export default function ParticleScrollFlow() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || typeof window === "undefined") return;
-    if (window.innerWidth < 768) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const isMobile      = window.innerWidth < 768;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (isMobile || reducedMotion) {
+      // Particle flow skipped — reveal section headings that started hidden
+      const revealHeadings = async () => {
+        await document.fonts.ready;
+        await new Promise<void>(r => requestAnimationFrame(() => r()));
+        await new Promise<void>(r => requestAnimationFrame(() => r()));
+        getParticle("engineer")?.setAlpha(1);
+        getParticle("shipped") ?.setAlpha(1);
+        getParticle("arsenal") ?.setAlpha(1);
+        getParticle("journey") ?.setAlpha(1);
+      };
+      void revealHeadings();
+      return;
+    }
 
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
