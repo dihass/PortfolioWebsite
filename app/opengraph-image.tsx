@@ -7,16 +7,15 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 // ─── Font loader ─────────────────────────────────────────────────────────────
-// Satori (the engine behind next/og) only accepts TTF/OTF — not WOFF or WOFF2.
-// The Google Fonts CSS API always returns WOFF2 for build-time user agents,
-// so we bypass it entirely and fetch the raw TTF from the google/fonts GitHub
-// repository served via jsDelivr CDN. This is a direct binary download with
-// no format negotiation — guaranteed to be a TTF file Satori can parse.
-async function loadFraunces(): Promise<ArrayBuffer | null> {
+// Satori (next/og) accepts TTF/OTF only — not WOFF/WOFF2.
+// Fraunces is a variable font; Satori's fontkit crashes on its GVAR tables
+// ("Cannot read properties of undefined (reading '256')").
+// DM Serif Display is a static-weight display serif with a similar high-contrast
+// editorial feel. Its single-weight TTF has no variation tables and parses cleanly.
+async function loadDisplayFont(): Promise<ArrayBuffer | null> {
   try {
-    // Fraunces variable font (covers all weights including 900 / Black)
     const res = await fetch(
-      "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/fraunces/Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf"
+      "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/dmserifdisplay/DMSerifDisplay-Regular.ttf"
     );
     if (!res.ok) return null;
     return res.arrayBuffer();
@@ -27,8 +26,8 @@ async function loadFraunces(): Promise<ArrayBuffer | null> {
 
 // ─── Image route ─────────────────────────────────────────────────────────────
 export default async function Image() {
-  const [fraunces, photoBuffer] = await Promise.all([
-    loadFraunces(),
+  const [displayFont, photoBuffer] = await Promise.all([
+    loadDisplayFont(),
     readFile(path.join(process.cwd(), "public", "about.jpg")).catch(() => null),
   ]);
 
@@ -36,7 +35,7 @@ export default async function Image() {
     ? `data:image/jpeg;base64,${photoBuffer.toString("base64")}`
     : null;
 
-  const HEADING = fraunces ? "Fraunces" : "Georgia, serif";
+  const HEADING = displayFont ? "DMSerifDisplay" : "Georgia, serif";
 
   const TICKER = [
     "NEXT.JS","REACT","NODE.JS","TYPESCRIPT","PYTHON",
@@ -92,7 +91,6 @@ export default async function Image() {
             <div
               style={{
                 fontFamily: HEADING,
-                fontWeight: 900,
                 fontSize: 118,
                 color: "#1c1714",
                 lineHeight: 0.88,
@@ -104,7 +102,6 @@ export default async function Image() {
             <div
               style={{
                 fontFamily: HEADING,
-                fontWeight: 900,
                 fontSize: 118,
                 color: "#1c1714",
                 lineHeight: 0.88,
@@ -127,7 +124,6 @@ export default async function Image() {
               <span
                 style={{
                   fontFamily: HEADING,
-                  fontWeight: 600,
                   fontSize: 20,
                   color: "#1c1714",
                 }}
@@ -259,7 +255,6 @@ export default async function Image() {
                 <span
                   style={{
                     fontFamily: HEADING,
-                    fontWeight: 900,
                     fontSize: 72,
                     color: "#1c1714",
                     letterSpacing: "-0.02em",
@@ -360,8 +355,8 @@ export default async function Image() {
     ),
     {
       ...size,
-      fonts: fraunces
-        ? [{ name: "Fraunces", data: fraunces, style: "normal", weight: 900 }]
+      fonts: displayFont
+        ? [{ name: "DMSerifDisplay", data: displayFont, style: "normal", weight: 400 }]
         : [],
     }
   );
