@@ -93,6 +93,8 @@ export default function Hero() {
                   baseColor="#1c1714"
                   accentColor="#0d7f60"
                   backgroundColor="#f9f5ef"
+                  particleId="engineer"
+                  fontSize="clamp(4.5rem, 13vw, 10rem)"
                 />
               </motion.div>
 

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import InteractiveWord from "@/components/ui/InteractiveWord";
 import {
   SiJavascript, SiTypescript, SiPython, SiSwift,
   SiReact, SiNextdotjs, SiNodedotjs, SiTailwindcss,
@@ -108,16 +109,18 @@ export default function Skills() {
             <span className="section-label">What I Know</span>
             <div className="flex-1 h-px bg-[#ddd0c0]" />
           </motion.div>
-          <div className="overflow-hidden">
-            <motion.h2
-              initial={{ y: "100%" }}
-              animate={inView ? { y: 0 } : {}}
-              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-fraunces font-black text-display-lg text-[#1c1714]"
-            >
-              Arsenal.
-            </motion.h2>
-          </div>
+          <h2 aria-label="Arsenal.">
+            <InteractiveWord
+              particleId="arsenal"
+              text="Arsenal."
+              fontSize="clamp(2rem, 5vw, 4.5rem)"
+              className="font-fraunces font-black leading-[1.05] tracking-tight"
+              baseColor="#1c1714"
+              accentColor="#0d7f60"
+              backgroundColor="#f0e9de"
+              initialHidden={true}
+            />
+          </h2>
         </div>
 
         {/* Bento grid — 3 columns */}

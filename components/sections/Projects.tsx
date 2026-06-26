@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
 import { BsActivity, BsStar, BsHouseDoor, BsPinMap, BsPhone } from "react-icons/bs";
 import type { IconType } from "react-icons";
+import InteractiveWord from "@/components/ui/InteractiveWord";
 
 type Project = {
   number: string;
@@ -32,7 +33,7 @@ const projects: Project[] = [
     BadgeIcon: BsActivity,
     windowTitle: "sepsis-detection.py",
     accentBar: "#c8d4ff",
-    accentBody: "#eef1ff",
+    accentBody: "#d8e0ff",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/LF-MSP", icon: "github" }],
     wide: true,
@@ -47,7 +48,7 @@ const projects: Project[] = [
     BadgeIcon: BsStar,
     windowTitle: "seascape-client.tsx",
     accentBar: "#a8f0d8",
-    accentBody: "#eefcf5",
+    accentBody: "#c8f5e5",
     rotation: 1.5,
     links: [],
   },
@@ -61,7 +62,7 @@ const projects: Project[] = [
     BadgeIcon: BsHouseDoor,
     windowTitle: "propvrty-app.jsx",
     accentBar: "#ffc0a8",
-    accentBody: "#fff4ef",
+    accentBody: "#ffd8c4",
     rotation: -2,
     links: [{ label: "Live Demo", href: "https://prop-vr-ty.vercel.app/", icon: "external" }],
   },
@@ -75,7 +76,7 @@ const projects: Project[] = [
     BadgeIcon: BsPinMap,
     windowTitle: "locate-link.ts",
     accentBar: "#f9d840",
-    accentBody: "#fffce8",
+    accentBody: "#fef09a",
     rotation: 1,
     links: [],
   },
@@ -89,7 +90,7 @@ const projects: Project[] = [
     BadgeIcon: BsPhone,
     windowTitle: "WeatherApp.swift",
     accentBar: "#ffb8d0",
-    accentBody: "#fff0f5",
+    accentBody: "#ffd0e4",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/WeatherDashboard", icon: "github" }],
   },
@@ -104,7 +105,7 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
       transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ rotate: 0, y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
       style={{ transformOrigin: "center bottom" }}
-      className="os-window cursor-default"
+      className="os-window cursor-default flex flex-col"
     >
       {/* Window chrome */}
       <div className="os-window-bar" style={{ background: project.accentBar }}>
@@ -116,8 +117,8 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
         <span className="os-window-title">{project.windowTitle}</span>
       </div>
 
-      {/* Window body */}
-      <div className="p-6" style={{ background: project.accentBody }}>
+      {/* Window body — flex-1 ensures it always fills the card height */}
+      <div className="p-6 flex-1" style={{ background: project.accentBody }}>
         {/* Header row */}
         <div className="mb-4">
           <p className="font-silkscreen text-[9px] tracking-wider text-[#bdb0a0] mb-1.5 flex items-center gap-1.5">
@@ -201,16 +202,18 @@ export default function Projects() {
             </span>
           </motion.div>
 
-          <div className="overflow-hidden">
-            <motion.h2
-              initial={{ y: "100%" }}
-              animate={inView ? { y: 0 } : {}}
-              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-fraunces font-black text-display-lg text-[#1c1714]"
-            >
-              Shipped.
-            </motion.h2>
-          </div>
+          <h2 aria-label="Shipped.">
+            <InteractiveWord
+              particleId="shipped"
+              text="Shipped."
+              fontSize="clamp(2rem, 5vw, 4.5rem)"
+              className="font-fraunces font-black leading-[1.05] tracking-tight"
+              baseColor="#1c1714"
+              accentColor="#0d7f60"
+              backgroundColor="#f9f5ef"
+              initialHidden={true}
+            />
+          </h2>
         </div>
 
         {/* Row 1: featured (wide) + card */}

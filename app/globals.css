@@ -51,7 +51,7 @@ body::after {
 
 /* OS Window — vibecoding.to Mac window chrome */
 .os-window {
-  background: #fff;
+  background: #f9f5ef;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #ddd0c0;
@@ -187,7 +187,7 @@ body::after {
   position: relative;
   z-index: 1;
   display: block;
-  font-size: clamp(4.5rem, 13vw, 10rem);
+  /* font-size is controlled per-instance via the fontSize prop (inline style) */
   color: rgba(28, 23, 20, 0.28);
   -webkit-text-stroke: 0 transparent;
   pointer-events: none;
