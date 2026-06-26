@@ -7,25 +7,28 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 // ─── Font loader ─────────────────────────────────────────────────────────────
-// Fetches Fraunces Black from Google Fonts (woff2, Latin subset).
-// Falls back silently to Georgia if the network call fails.
+// Satori (the engine behind next/og ImageResponse) only supports TTF/OTF.
+// Modern browser User-Agents cause Google Fonts to return woff2, which Satori
+// rejects with "Unsupported OpenType signature wOF2".
+// Fix: request with an IE6 UA → Google Fonts returns a plain TTF URL instead.
 async function loadFraunces(): Promise<ArrayBuffer | null> {
   try {
     const css = await fetch(
-      "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,900&display=swap",
+      "https://fonts.googleapis.com/css2?family=Fraunces:wght@900&display=swap",
       {
         headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          // Old UA → TTF (truetype) response; modern UA → woff2 (breaks Satori)
+          "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
         },
-        cache: "force-cache",
+        // Cache the CSS for 24 h at the edge so we don't hammer Google Fonts
+        next: { revalidate: 86_400 },
       }
     ).then((r) => r.text());
 
-    // CSS contains one or more @font-face blocks; grab the first woff2 URL
-    const match = css.match(/url\((https:\/\/[^)]+\.woff2)\)/);
-    if (!match?.[1]) return null;
-    return fetch(match[1]).then((r) => r.arrayBuffer());
+    // Old-style CSS uses bare (unquoted) URLs: src: url(https://...)
+    const url = css.match(/url\(([^)]+)\)/)?.[1];
+    if (!url) return null;
+    return fetch(url).then((r) => r.arrayBuffer());
   } catch {
     return null;
   }
