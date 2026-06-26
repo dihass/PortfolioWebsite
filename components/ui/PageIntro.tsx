@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function PageIntro() {
   return (
     <motion.div
-      className="fixed inset-0 z-[99998] bg-[#f9f5ef] pointer-events-none flex items-center justify-center"
+      className="fixed inset-0 z-[99998] bg-cream bg-grid pointer-events-none flex items-center justify-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
       transition={{ duration: 1.0, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}

@@ -26,7 +26,7 @@ export default function Contact() {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
-          backgroundImage: "radial-gradient(#f9f5ef 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(#F6F0E4 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
@@ -72,7 +72,7 @@ export default function Contact() {
               initial={{ y: "100%" }}
               animate={inView ? { y: 0 } : {}}
               transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="block text-[#f9f5ef]"
+              className="block text-[#F6F0E4]"
             >
               Let&apos;s build
             </motion.span>
@@ -105,7 +105,7 @@ export default function Contact() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.55 }}
           whileHover={{ scale: 1.02 }}
-          className="inline-block font-silkscreen text-[#f9f5ef] mb-14 hover:text-[#9fead3] transition-colors duration-200"
+          className="inline-block font-silkscreen text-[#F6F0E4] mb-14 hover:text-[#9fead3] transition-colors duration-200"
           style={{ fontSize: "clamp(0.85rem, 2.2vw, 1.25rem)", letterSpacing: "0.05em" }}
         >
           {EMAIL}

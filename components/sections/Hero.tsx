@@ -29,7 +29,7 @@ export default function Hero() {
   }>({ sriLanka: null, building: null });
 
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden flex flex-col">
+    <section id="hero" className="relative min-h-screen overflow-hidden flex flex-col bg-cream bg-grid">
 
       {/* Main content */}
       <div className="flex-1 flex items-center">
@@ -92,7 +92,7 @@ export default function Hero() {
                   className="font-fraunces font-black leading-[0.88] tracking-tight"
                   baseColor="#1c1714"
                   accentColor="#0d7f60"
-                  backgroundColor="#f9f5ef"
+                  backgroundColor="#F6F0E4"
                   particleId="engineer"
                   fontSize="clamp(4.5rem, 13vw, 10rem)"
                 />
@@ -148,7 +148,7 @@ export default function Hero() {
               >
                 <motion.button
                   onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
-                  className="font-jakarta font-medium text-sm px-7 py-3.5 bg-[#1c1714] text-[#f9f5ef] rounded-xl overflow-hidden relative"
+                  className="font-jakarta font-medium text-sm px-7 py-3.5 bg-[#1c1714] text-[#F6F0E4] rounded-xl overflow-hidden relative"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
@@ -166,7 +166,7 @@ export default function Hero() {
                   href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-jakarta text-sm px-7 py-3.5 border-2 border-[#1c1714] text-[#1c1714] rounded-xl hover:bg-[#1c1714] hover:text-[#f9f5ef] transition-all duration-200"
+                  className="font-jakarta text-sm px-7 py-3.5 border-2 border-[#1c1714] text-[#1c1714] rounded-xl hover:bg-[#1c1714] hover:text-[#F6F0E4] transition-all duration-200"
                 >
                   Resume ↗
                 </a>
@@ -282,7 +282,7 @@ export default function Hero() {
         <div className="flex">
           <div className="animate-ticker-left flex whitespace-nowrap gap-0">
             {[...STACK_TICKER, ...STACK_TICKER, ...STACK_TICKER, ...STACK_TICKER].map((item, i) => (
-              <span key={i} className="font-silkscreen text-[10px] tracking-widest text-[#f9f5ef] mx-6">
+              <span key={i} className="font-silkscreen text-[10px] tracking-widest text-[#F6F0E4] mx-6">
                 {item} <span className="text-[#9fead3]">✦</span>
               </span>
             ))}

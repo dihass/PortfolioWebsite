@@ -16,7 +16,7 @@ const timeline = [
     Icon: BsBriefcase,
     bg: "#1c1714",
     barBg: "#2e2926",
-    textColor: "#f9f5ef",
+    textColor: "#F6F0E4",
     mutedColor: "#bdb0a0",
     accentColor: "#9fead3",
     rotation: -1.5,
@@ -52,7 +52,7 @@ export default function Experience() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" ref={ref} className="py-24 relative overflow-hidden bg-cream">
+    <section id="experience" ref={ref} className="py-24 relative overflow-hidden bg-cream bg-grid">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="mb-14">
@@ -73,8 +73,7 @@ export default function Experience() {
               className="font-fraunces font-black leading-[1.05] tracking-tight"
               baseColor="#1c1714"
               accentColor="#0d7f60"
-              backgroundColor="#f9f5ef"
-              initialHidden={true}
+              backgroundColor="#F6F0E4"
             />
           </h2>
         </div>

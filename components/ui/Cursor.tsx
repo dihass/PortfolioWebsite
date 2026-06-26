@@ -61,7 +61,7 @@ export default function Cursor() {
         className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full pointer-events-none hidden [@media(pointer:fine)]:block"
         style={{
           willChange: "transform",
-          backgroundColor: "#f9f5ef",
+          backgroundColor: "#F6F0E4",
           border: "1px solid rgba(28, 23, 20, 0.9)",
           boxShadow: "0 0 0 2px rgba(249, 245, 239, 0.75), 0 0 12px rgba(159, 234, 211, 0.85)",
         }}

@@ -8,9 +8,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream:            "#f9f5ef",
-        surface:          "#f0e9de",
-        "surface-raised": "#e8ddd0",
+        cream:            "#F6F0E4",
+        surface:          "#EAE0C8",
+        "surface-raised": "#E2D5BA",
         "text-primary":   "#1c1714",
         "text-body":      "#4a4238",
         "text-muted":     "#7a6f68",

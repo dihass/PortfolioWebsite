@@ -57,6 +57,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${jakarta.variable} ${silkscreen.variable}`}>
+      <head>
+        {/* Always start at the top on load/refresh */}
+        <script dangerouslySetInnerHTML={{ __html: "history.scrollRestoration='manual';window.scrollTo(0,0);" }} />
+      </head>
       <body>
         <PageIntro />
         <Cursor />

@@ -20,7 +20,7 @@ interface InteractiveWordProps {
 }
 
 const DEFAULT_FONT = "Fraunces, Georgia, serif";
-const DEFAULT_BG   = "#f9f5ef";
+const DEFAULT_BG   = "#F6F0E4";
 const DEFAULT_BASE = "#1c1714";
 const DEFAULT_ACC  = "#ff5a2c";
 

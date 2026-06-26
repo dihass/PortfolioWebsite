@@ -78,7 +78,7 @@ function fromHandle(id: string, sy: number): Formation | null {
   return { count: TARGET_COUNT, docX, docY, size: sz, phase: ph, arcOX, arcOY };
 }
 
-const IDS = ["engineer", "shipped", "arsenal", "journey"] as const;
+const IDS = ["engineer", "shipped", "arsenal"] as const;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -101,7 +101,6 @@ export default function ParticleScrollFlow() {
         getParticle("engineer")?.setAlpha(1);
         getParticle("shipped") ?.setAlpha(1);
         getParticle("arsenal") ?.setAlpha(1);
-        getParticle("journey") ?.setAlpha(1);
       };
       void revealHeadings();
       return;
@@ -120,8 +119,6 @@ export default function ParticleScrollFlow() {
     type Anchors = {
       m01s: number; m01e: number;
       m12s: number; m12e: number;
-      m23s: number; m23e: number;
-      fdOs: number; fdOe: number;
     };
     let cachedAnchors: Anchors | null = null;
 
@@ -129,12 +126,10 @@ export default function ParticleScrollFlow() {
       const vp   = window.innerHeight;
       const proj = document.getElementById("projects");
       const skl  = document.getElementById("skills");
-      const exp  = document.getElementById("experience");
-      if (!proj || !skl || !exp) return null;
+      if (!proj || !skl) return null;
       const sy = window.scrollY;
       const pT = proj.getBoundingClientRect().top + sy;
       const sT = skl .getBoundingClientRect().top + sy;
-      const eT = exp .getBoundingClientRect().top + sy;
 
       // m01s: scroll position where Engineer canvas bottom clears the viewport top
       const engRect = getParticle("engineer")?.getCanvasRect();
@@ -145,10 +140,6 @@ export default function ParticleScrollFlow() {
         m01e: Math.max(m01s + vp * 0.35, pT - vp * 0.15),
         m12s: pT + vp * 0.55,
         m12e: sT + vp * 0.08,
-        m23s: sT + vp * 0.55,
-        m23e: eT + vp * 0.08,
-        fdOs: eT + vp * 0.85,
-        fdOe: eT + vp * 1.6,
       };
     };
 
@@ -161,15 +152,14 @@ export default function ParticleScrollFlow() {
     // ── State ─────────────────────────────────────────────────────────────────
     const ms = { fromIdx: 0, toIdx: 0, progress: 0, canvasAlpha: 0 };
     let driftTime = 0;
-    const formations: (Formation | null)[] = [null, null, null, null];
+    const formations: (Formation | null)[] = [null, null, null];
     let built = false;
 
     // ── Set all handle alphas at once ─────────────────────────────────────────
-    const setAlphas = (e: number, s: number, a: number, j: number) => {
+    const setAlphas = (e: number, s: number, a: number) => {
       getParticle("engineer")?.setAlpha(e);
       getParticle("shipped") ?.setAlpha(s);
       getParticle("arsenal") ?.setAlpha(a);
-      getParticle("journey") ?.setAlpha(j);
     };
 
     // ── Scroll → state ────────────────────────────────────────────────────────
@@ -178,55 +168,36 @@ export default function ParticleScrollFlow() {
       const sy = window.scrollY;
       const a  = cachedAnchors;
       if (!a) return;
-      const { m01s, m01e, m12s, m12e, m23s, m23e, fdOs, fdOe } = a;
+      const { m01s, m01e, m12s, m12e } = a;
 
       if (sy <= m01s) {
         // Hero at rest — InteractiveWord handles Engineer
         ms.canvasAlpha = 0; ms.fromIdx = 0; ms.toIdx = 0; ms.progress = 0;
-        setAlphas(1, 0, 0, 0);
+        setAlphas(1, 0, 0);
 
       } else if (sy < m01e) {
         // Transition: Engineer → Shipped
-        // Instant handoff — canvas takes over immediately, no crossfade
         ms.canvasAlpha = 1;
         ms.fromIdx = 0; ms.toIdx = 1;
         ms.progress = clamp((sy - m01s) / (m01e - m01s), 0, 1);
-        setAlphas(0, 0, 0, 0);   // hide all InteractiveWords; overlay handles it
+        setAlphas(0, 0, 0);
 
       } else if (sy < m12s) {
         // Settled at Shipped — Shipped InteractiveWord is live + interactive
         ms.canvasAlpha = 0; ms.fromIdx = 1; ms.toIdx = 1; ms.progress = 1;
-        setAlphas(0, 1, 0, 0);
+        setAlphas(0, 1, 0);
 
       } else if (sy < m12e) {
         // Transition: Shipped → Arsenal
         ms.canvasAlpha = 1;
         ms.fromIdx = 1; ms.toIdx = 2;
         ms.progress = clamp((sy - m12s) / (m12e - m12s), 0, 1);
-        setAlphas(0, 0, 0, 0);
-
-      } else if (sy < m23s) {
-        // Settled at Arsenal
-        ms.canvasAlpha = 0; ms.fromIdx = 2; ms.toIdx = 2; ms.progress = 1;
-        setAlphas(0, 0, 1, 0);
-
-      } else if (sy < m23e) {
-        // Transition: Arsenal → Journey
-        ms.canvasAlpha = 1;
-        ms.fromIdx = 2; ms.toIdx = 3;
-        ms.progress = clamp((sy - m23s) / (m23e - m23s), 0, 1);
-        setAlphas(0, 0, 0, 0);
-
-      } else if (sy < fdOs) {
-        // Settled at Journey
-        ms.canvasAlpha = 0; ms.fromIdx = 3; ms.toIdx = 3; ms.progress = 1;
-        setAlphas(0, 0, 0, 1);
+        setAlphas(0, 0, 0);
 
       } else {
-        // Fade Journey out as Contact approaches
-        ms.canvasAlpha = 0; ms.fromIdx = 3; ms.toIdx = 3; ms.progress = 1;
-        const fade = clamp((sy - fdOs) / (fdOe - fdOs), 0, 1);
-        setAlphas(0, 0, 0, 1 - fade);
+        // Settled at Arsenal — stays for the rest of the page
+        ms.canvasAlpha = 0; ms.fromIdx = 2; ms.toIdx = 2; ms.progress = 1;
+        setAlphas(0, 0, 1);
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -248,7 +219,6 @@ export default function ParticleScrollFlow() {
       // Initially hide section headings
       getParticle("shipped")?.setAlpha(0);
       getParticle("arsenal")?.setAlpha(0);
-      getParticle("journey")?.setAlpha(0);
 
       cachedAnchors = computeAnchors(); // compute now that all handles are registered
       built = true;

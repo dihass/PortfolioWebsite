@@ -36,8 +36,8 @@ export default function Nav() {
       >
         <div className={`max-w-[1280px] mx-auto px-5 md:px-8 h-14 flex items-center justify-between rounded-xl transition-all duration-300 ${
           scrolled
-            ? "bg-[#f9f5ef]/95 backdrop-blur-md border border-[#ddd0c0] shadow-sm"
-            : "bg-[#f9f5ef]/80 border border-[#e8ddd0]"
+            ? "bg-cream/95 backdrop-blur-md border border-[#ddd0c0] shadow-sm"
+            : "bg-cream/80 border border-[#ddd0a4]"
         }`}>
           {/* Logo */}
           <button
@@ -53,7 +53,7 @@ export default function Nav() {
               <button
                 key={l.href}
                 onClick={() => handleLink(l.href)}
-                className="font-silkscreen text-[10px] tracking-widest text-[#7a6f68] hover:text-[#1c1714] transition-colors duration-200 uppercase px-4 py-2 hover:bg-[#f0e9de] rounded-lg"
+                className="font-silkscreen text-[10px] tracking-widest text-[#7a6f68] hover:text-[#1c1714] transition-colors duration-200 uppercase px-4 py-2 hover:bg-surface rounded-lg"
               >
                 {l.label}
               </button>
@@ -97,7 +97,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[#f9f5ef]/97 backdrop-blur-lg flex flex-col items-center justify-center gap-8 md:hidden"
+            className="fixed inset-0 z-40 bg-cream/97 backdrop-blur-lg flex flex-col items-center justify-center gap-8 md:hidden"
           >
             {links.map((l, i) => (
               <motion.button

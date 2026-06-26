@@ -176,15 +176,7 @@ export default function Projects() {
   const [p01, p02, p03, p04, p05] = projects;
 
   return (
-    <section id="projects" ref={ref} className="py-24 relative overflow-hidden bg-cream">
-      {/* Subtle dot grid background */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.035]"
-        style={{
-          backgroundImage: "radial-gradient(#1c1714 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
+    <section id="projects" ref={ref} className="py-24 relative overflow-hidden bg-cream bg-grid">
 
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
         {/* Header */}
@@ -210,7 +202,7 @@ export default function Projects() {
               className="font-fraunces font-black leading-[1.05] tracking-tight"
               baseColor="#1c1714"
               accentColor="#0d7f60"
-              backgroundColor="#f9f5ef"
+              backgroundColor="#F6F0E4"
               initialHidden={true}
             />
           </h2>
