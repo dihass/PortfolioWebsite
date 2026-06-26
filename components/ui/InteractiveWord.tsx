@@ -62,6 +62,9 @@ export default function InteractiveWord({
     const fallback = fallbackRef.current;
     if (!canvas || !wrap || !fallback) return;
 
+    // Mobile: skip all canvas/particle work — plain text only
+    if (window.innerWidth < 768) return;
+
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 

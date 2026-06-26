@@ -126,6 +126,10 @@ body::after {
   pointer-events: auto;
 }
 
+@media (max-width: 767px) {
+  .interactive-word-canvas { display: none; }
+}
+
 .interactive-word-fallback {
   position: relative;
   z-index: 1;
@@ -135,6 +139,12 @@ body::after {
   -webkit-text-stroke: 0 transparent;
   pointer-events: none;
   user-select: none;
+}
+
+/* On mobile the canvas is hidden so the fallback span IS the text */
+@media (max-width: 767px) {
+  .interactive-word-fallback { color: #1c1714; }
+  .interactive-word { filter: none; }
 }
 
 /* Terminal wisp hero easter egg */
