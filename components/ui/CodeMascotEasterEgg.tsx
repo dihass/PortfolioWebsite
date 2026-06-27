@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTheme } from "./ThemeProvider";
 
 const SOFTWARE = ["S", "o", "f", "t", "w", "a", "r", "e"] as const;
 
@@ -70,6 +71,8 @@ function easeInOutSine(t: number) {
 }
 
 export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMascotEasterEggProps) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const mascotRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -494,10 +497,103 @@ export default function CodeMascotEasterEgg({ letterRefs, stickerRefs }: CodeMas
         style={mascotStyle}
       >
         <div ref={bodyRef} className="code-mascot-body">
-          <TerminalWispFigure />
+          {isDark ? <AstronautFigure /> : <TerminalWispFigure />}
         </div>
       </div>
     </div>
+  );
+}
+
+function AstronautFigure() {
+  return (
+    <svg
+      className="code-mascot-svg"
+      viewBox="0 0 150 150"
+      role="img"
+      aria-label="Animated astronaut mascot"
+    >
+      <defs>
+        <radialGradient id="astronautGlow" cx="50%" cy="50%" r="62%">
+          <stop offset="0%" stopColor="#4ecba8" stopOpacity="0.20" />
+          <stop offset="48%" stopColor="#6090e0" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#4ecba8" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* Background glow */}
+      <ellipse className="cm-glow" cx="75" cy="88" rx="60" ry="52" fill="url(#astronautGlow)" />
+
+      {/* Thruster exhausts — appear during launch / boost poses */}
+      <path className="cm-trail cm-trail-a" d="M61 128 C57 138 55 148 61 154" />
+      <path className="cm-trail cm-trail-b" d="M89 128 C93 138 95 148 89 154" />
+
+      {/* Orbiting particles */}
+      <g className="cm-orbit">
+        <circle className="tw-orbit-dot tw-orbit-dot-a" cx="28" cy="54" r="3" />
+        <circle className="tw-orbit-dot tw-orbit-dot-b" cx="122" cy="44" r="4" />
+        <path className="tw-orbit-line" d="M24 78 C34 32 114 28 126 72" />
+      </g>
+
+      {/* HELMET — entire group bounces with cm-head pose animations */}
+      <g className="cm-head">
+        <circle className="as-helmet-shell" cx="75" cy="56" r="31" />
+        <ellipse className="as-visor-frame" cx="75" cy="60" rx="21" ry="23" />
+        <ellipse className="as-visor-glass" cx="75" cy="60" rx="19" ry="21" />
+        <ellipse className="as-visor-shine" cx="63" cy="47" rx="8" ry="5" transform="rotate(-25 63 47)" />
+        <circle className="as-visor-star" cx="86" cy="55" r="1.2" />
+        <circle className="as-visor-star" cx="83" cy="66" r="0.8" />
+        <circle className="as-visor-star" cx="79" cy="59" r="0.5" />
+        <path className="as-helmet-rib" d="M46 65 Q75 69 104 65" />
+        <ellipse className="as-collar-ring" cx="75" cy="87" rx="26" ry="6" />
+      </g>
+
+      {/* ANTENNA — teal arcs atop the helmet */}
+      <g className="cm-antenna">
+        <line className="as-antenna-stick" x1="75" y1="25" x2="75" y2="17" />
+        <circle className="as-antenna-tip" cx="75" cy="14" r="4" />
+        <path className="tw-signal tw-signal-a" d="M54 27 C64 16 86 16 96 27" />
+        <path className="tw-signal tw-signal-b" d="M62 20 C68 12 82 12 88 20" />
+      </g>
+
+      {/* TORSO — spacesuit body, arms, gloves, boots */}
+      <g className="cm-torso">
+        <path
+          className="as-suit-body"
+          d="M49 91 C41 104 39 117 41 127 Q56 134 75 135 Q94 134 109 127 C111 117 109 104 101 91 Z"
+        />
+        <path className="as-suit-rib" d="M52 102 Q75 105 98 102" />
+        <path className="as-suit-rib" d="M50 113 Q75 117 100 113" />
+        <rect className="as-chest-panel" x="62" y="97" width="26" height="18" rx="3" />
+        <circle className="as-panel-light-g" cx="68" cy="103" r="2.5" />
+        <circle className="as-panel-light-y" cx="75" cy="103" r="2.5" />
+        <circle className="as-panel-light-r" cx="82" cy="103" r="2.5" />
+        <rect className="as-panel-bar" x="65" y="109" width="20" height="3" rx="1.5" />
+        <ellipse className="as-shoulder-joint" cx="49" cy="96" rx="7" ry="5" />
+        <ellipse className="as-shoulder-joint" cx="101" cy="96" rx="7" ry="5" />
+        {/* Arms — use tw-fold-left/right so float & land animations apply */}
+        <path
+          className="tw-fold-left as-arm"
+          d="M43 93 C33 106 30 120 34 128 Q40 131 46 129 C50 121 50 108 43 93 Z"
+        />
+        <path
+          className="tw-fold-right as-arm"
+          d="M107 93 C117 106 120 120 116 128 Q110 131 104 129 C100 121 100 108 107 93 Z"
+        />
+        <ellipse className="as-glove" cx="38" cy="130" rx="7" ry="5.5" />
+        <ellipse className="as-glove" cx="112" cy="130" rx="7" ry="5.5" />
+        <path className="as-boot" d="M50 127 C47 132 47 138 52 141 Q62 143 68 141 Q72 138 70 131" />
+        <path className="as-boot" d="M100 127 C103 132 103 138 98 141 Q88 143 82 141 Q78 138 80 131" />
+        <path className="tw-shadow-foot" d="M46 142 Q75 150 104 142" />
+      </g>
+
+      {/* Compile UI — holographic panel, pops out during compile / boost */}
+      <g className="cm-compile-ui">
+        <rect x="17" y="23" width="42" height="27" rx="8" />
+        <path d="M26 36 L32 30 L26 26" />
+        <path d="M40 26 L34 40" />
+        <path d="M46 26 L53 31 L46 36" />
+      </g>
+    </svg>
   );
 }
 

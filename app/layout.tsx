@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans, Silkscreen } from "next/font/google";
 import "./globals.css";
-import Cursor from "@/components/ui/Cursor";
-import PageIntro from "@/components/ui/PageIntro";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import ClientShell from "@/components/ui/ClientShell";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -56,15 +56,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${jakarta.variable} ${silkscreen.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${fraunces.variable} ${jakarta.variable} ${silkscreen.variable}`}>
       <head>
         {/* Always start at the top on load/refresh */}
         <script dangerouslySetInnerHTML={{ __html: "history.scrollRestoration='manual';window.scrollTo(0,0);" }} />
       </head>
       <body>
-        <PageIntro />
-        <Cursor />
-        {children}
+        <ThemeProvider>
+          <ClientShell />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -5,49 +5,52 @@ import { motion, useInView } from "framer-motion";
 import InteractiveWord from "@/components/ui/InteractiveWord";
 import { BsBriefcase, BsMortarboard } from "react-icons/bs";
 import type { IconType } from "react-icons";
-
-const timeline = [
-  {
-    year: "2024 — 2025",
-    role: "Software Engineering Intern",
-    org: "IFS",
-    location: "Colombo, Sri Lanka",
-    type: "work",
-    Icon: BsBriefcase,
-    bg: "#1c1714",
-    barBg: "#2e2926",
-    textColor: "#F6F0E4",
-    mutedColor: "#bdb0a0",
-    accentColor: "#9fead3",
-    rotation: -1.5,
-    points: [
-      "Developed enterprise features using Marble frontend and PL/SQL backend",
-      "Investigated and resolved production bugs improving system stability",
-      "Optimised backend queries for performance across key workflows",
-      "Built TAR automation tests for feature validation in Agile sprints",
-    ],
-  },
-  {
-    year: "2022 — 2026",
-    role: "BEng (Hons) Computer Science",
-    org: "IIT / University of Westminster",
-    location: "Colombo, Sri Lanka",
-    type: "education",
-    Icon: BsMortarboard,
-    bg: "#fef8e0",
-    barBg: "#f9e070",
-    textColor: "#1c1714",
-    mutedColor: "#7a6f68",
-    accentColor: "#7a4800",
-    rotation: 1.5,
-    points: [
-      "FYP: Multimodal AI for early sepsis detection — AUROC 0.9283",
-      "Modules: Distributed Systems, Security, Mobile Dev, AI & ML",
-    ],
-  },
-];
+import { useTheme } from "@/components/ui/ThemeProvider";
 
 export default function Experience() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const timeline = [
+    {
+      year: "2024 — 2025",
+      role: "Software Engineering Intern",
+      org: "IFS",
+      location: "Colombo, Sri Lanka",
+      type: "work",
+      Icon: BsBriefcase,
+      bg:         isDark ? "#06060f" : "#1c1714",
+      barBg:      isDark ? "#0d0d1e" : "#2e2926",
+      textColor:  isDark ? "#e8e2f4" : "#F6F0E4",
+      mutedColor: isDark ? "#6a6a9a" : "#bdb0a0",
+      accentColor: isDark ? "#4ecba8" : "#9fead3",
+      rotation: -1.5,
+      points: [
+        "Developed enterprise features using Marble frontend and PL/SQL backend",
+        "Investigated and resolved production bugs improving system stability",
+        "Optimised backend queries for performance across key workflows",
+        "Built TAR automation tests for feature validation in Agile sprints",
+      ],
+    },
+    {
+      year: "2022 — 2026",
+      role: "BEng (Hons) Computer Science",
+      org: "IIT / University of Westminster",
+      location: "Colombo, Sri Lanka",
+      type: "education",
+      Icon: BsMortarboard,
+      bg:         isDark ? "#100c00" : "#fef8e0",
+      barBg:      isDark ? "#1c1600" : "#f9e070",
+      textColor:  isDark ? "#f0e8c0" : "#1c1714",
+      mutedColor: isDark ? "#806840" : "#7a6f68",
+      accentColor: isDark ? "#e0a840" : "#7a4800",
+      rotation: 1.5,
+      points: [
+        "FYP: Multimodal AI for early sepsis detection — AUROC 0.9283",
+        "Modules: Distributed Systems, Security, Mobile Dev, AI & ML",
+      ],
+    },
+  ];
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -71,9 +74,9 @@ export default function Experience() {
               text="Journey."
               fontSize="clamp(2rem, 5vw, 4.5rem)"
               className="font-fraunces font-black leading-[1.05] tracking-tight"
-              baseColor="#1c1714"
-              accentColor="#0d7f60"
-              backgroundColor="#F6F0E4"
+              baseColor={isDark ? "#e8e2f4" : "#1c1714"}
+              accentColor={isDark ? "#4ecba8" : "#0d7f60"}
+              backgroundColor={isDark ? "#121216" : "#F6F0E4"}
             />
           </h2>
         </div>

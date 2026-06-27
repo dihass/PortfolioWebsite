@@ -7,6 +7,7 @@ import { BsWrench, BsGeoAlt, BsLightning } from "react-icons/bs";
 import type { IconType } from "react-icons";
 import CodeMascotEasterEgg from "@/components/ui/CodeMascotEasterEgg";
 import InteractiveWord from "@/components/ui/InteractiveWord";
+import { useTheme } from "@/components/ui/ThemeProvider";
 
 const SOFTWARE_LETTERS = ["S", "o", "f", "t", "w", "a", "r", "e"];
 
@@ -15,13 +16,32 @@ const STACK_TICKER = [
   "POSTGRESQL", "DOCKER", "TAILWIND", "MONGODB", "JAVA",
 ];
 
-const stickers: { label: string; Icon: IconType; bg: string; text: string; rotation: number; top?: string; bottom?: string; left?: string; right?: string; animation: string }[] = [
-  { label: "Building since 2022", Icon: BsWrench,  bg: "#f9c840", text: "#7a4800", rotation:  8, top: "0%",  right: "0%", animation: "animate-float-right" },
-  { label: "SRI LANKA",           Icon: BsGeoAlt,  bg: "#9fead3", text: "#0d7f60", rotation: -7, top: "4%",  left: "0%",  animation: "animate-float-left"  },
-  { label: "DarvinCode founder",  Icon: BsLightning, bg: "#ffd0bc", text: "#8b3010", rotation:  5, top: "45%", right: "0%", animation: "animate-float-right" },
-];
+type Sticker = { label: string; Icon: IconType; bg: string; text: string; rotation: number; top?: string; bottom?: string; left?: string; right?: string; animation: string };
 
 export default function Hero() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const stickers: Sticker[] = [
+    {
+      label: "Building since 2022", Icon: BsWrench, rotation: 8,
+      top: "0%", right: "0%", animation: "animate-float-right",
+      bg:   isDark ? "#1c1200" : "#f9c840",
+      text: isDark ? "#f9c840" : "#7a4800",
+    },
+    {
+      label: "SRI LANKA", Icon: BsGeoAlt, rotation: -7,
+      top: "4%", left: "0%", animation: "animate-float-left",
+      bg:   isDark ? "#001c12" : "#9fead3",
+      text: isDark ? "#4ecba8" : "#0d7f60",
+    },
+    {
+      label: "DarvinCode founder", Icon: BsLightning, rotation: 5,
+      top: "45%", right: "0%", animation: "animate-float-right",
+      bg:   isDark ? "#1c0800" : "#ffd0bc",
+      text: isDark ? "#ff9070" : "#8b3010",
+    },
+  ];
   const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const stickerRefs = useRef<{
     sriLanka: HTMLDivElement | null;
@@ -90,9 +110,9 @@ export default function Hero() {
                 <InteractiveWord
                   text="Engineer."
                   className="font-fraunces font-black leading-[0.88] tracking-tight"
-                  baseColor="#1c1714"
-                  accentColor="#0d7f60"
-                  backgroundColor="#F6F0E4"
+                  baseColor={isDark ? "#e8e2f4" : "#1c1714"}
+                  accentColor={isDark ? "#4ecba8" : "#0d7f60"}
+                  backgroundColor={isDark ? "#121216" : "#F6F0E4"}
                   particleId="engineer"
                   fontSize="clamp(4.5rem, 13vw, 10rem)"
                 />

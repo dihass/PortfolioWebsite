@@ -6,6 +6,7 @@ import { FiGithub, FiExternalLink } from "react-icons/fi";
 import { BsActivity, BsStar, BsHouseDoor, BsPinMap, BsPhone } from "react-icons/bs";
 import type { IconType } from "react-icons";
 import InteractiveWord from "@/components/ui/InteractiveWord";
+import { useTheme } from "@/components/ui/ThemeProvider";
 
 type Project = {
   number: string;
@@ -17,6 +18,8 @@ type Project = {
   windowTitle: string;
   accentBar: string;
   accentBody: string;
+  darkBar: string;
+  darkBody: string;
   rotation: number;
   links: { label: string; href: string; icon: "github" | "external" }[];
   wide?: boolean;
@@ -32,8 +35,10 @@ const projects: Project[] = [
     badge: "Research · FYP 2026",
     BadgeIcon: BsActivity,
     windowTitle: "sepsis-detection.py",
-    accentBar: "#c8d4ff",
+    accentBar:  "#c8d4ff",
     accentBody: "#d8e0ff",
+    darkBar:  "#0c0c20",
+    darkBody: "#08081a",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/LF-MSP", icon: "github" }],
     wide: true,
@@ -47,8 +52,10 @@ const projects: Project[] = [
     badge: "Client Work · Live",
     BadgeIcon: BsStar,
     windowTitle: "seascape-client.tsx",
-    accentBar: "#a8f0d8",
+    accentBar:  "#a8f0d8",
     accentBody: "#c8f5e5",
+    darkBar:  "#001810",
+    darkBody: "#00100a",
     rotation: 1.5,
     links: [],
   },
@@ -61,8 +68,10 @@ const projects: Project[] = [
     badge: "Web App · Live",
     BadgeIcon: BsHouseDoor,
     windowTitle: "propvrty-app.jsx",
-    accentBar: "#ffc0a8",
+    accentBar:  "#ffc0a8",
     accentBody: "#ffd8c4",
+    darkBar:  "#1a0800",
+    darkBody: "#120500",
     rotation: -2,
     links: [{ label: "Live Demo", href: "https://prop-vr-ty.vercel.app/", icon: "external" }],
   },
@@ -75,8 +84,10 @@ const projects: Project[] = [
     badge: "Utility · Private",
     BadgeIcon: BsPinMap,
     windowTitle: "locate-link.ts",
-    accentBar: "#f9d840",
+    accentBar:  "#f9d840",
     accentBody: "#fef09a",
+    darkBar:  "#1a1200",
+    darkBody: "#100c00",
     rotation: 1,
     links: [],
   },
@@ -89,14 +100,27 @@ const projects: Project[] = [
     badge: "iOS · Mobile",
     BadgeIcon: BsPhone,
     windowTitle: "WeatherApp.swift",
-    accentBar: "#ffb8d0",
+    accentBar:  "#ffb8d0",
     accentBody: "#ffd0e4",
+    darkBar:  "#1a0010",
+    darkBody: "#10000a",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/WeatherDashboard", icon: "github" }],
   },
 ];
 
-function OSProjectCard({ project, delay }: { project: Project; delay: number }) {
+function OSProjectCard({ project, delay, isDark }: { project: Project; delay: number; isDark: boolean }) {
+  const bar  = isDark ? project.darkBar  : project.accentBar;
+  const body = isDark ? project.darkBody : project.accentBody;
+
+  const titleColor  = isDark ? "#e8e2f4"              : "#1c1714";
+  const descColor   = isDark ? "#8888aa"              : "#7a6f68";
+  const badgeColor  = isDark ? "#55557a"              : "#bdb0a0";
+  const tagBg       = isDark ? "rgba(255,255,255,0.05)" : "rgba(28,23,20,0.06)";
+  const tagText     = isDark ? "#7070a0"              : "#4a4238";
+  const divider     = isDark ? "rgba(255,255,255,0.07)" : "rgba(28,23,20,0.08)";
+  const linkColor   = isDark ? "#4ecba8"              : "#0d7f60";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50, rotate: project.rotation }}
@@ -108,29 +132,40 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
       className="os-window cursor-default flex flex-col"
     >
       {/* Window chrome */}
-      <div className="os-window-bar" style={{ background: project.accentBar }}>
+      <div className="os-window-bar" style={{ background: bar }}>
         <div className="os-window-dots">
           <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
           <div className="w-3 h-3 rounded-full bg-[#28c840]" />
         </div>
-        <span className="os-window-title">{project.windowTitle}</span>
+        <span
+          className="os-window-title"
+          style={{ color: isDark ? "rgba(255,255,255,0.3)" : undefined }}
+        >
+          {project.windowTitle}
+        </span>
       </div>
 
-      {/* Window body — flex-1 ensures it always fills the card height */}
-      <div className="p-6 flex-1" style={{ background: project.accentBody }}>
-        {/* Header row */}
+      {/* Window body */}
+      <div className="p-6 flex-1" style={{ background: body }}>
+        {/* Badge */}
         <div className="mb-4">
-          <p className="font-silkscreen text-[9px] tracking-wider text-[#bdb0a0] mb-1.5 flex items-center gap-1.5">
+          <p
+            className="font-silkscreen text-[9px] tracking-wider mb-1.5 flex items-center gap-1.5"
+            style={{ color: badgeColor }}
+          >
             <project.BadgeIcon className="w-4 h-4 flex-shrink-0" />
             {project.badge}
           </p>
-          <h3 className="font-fraunces font-bold text-xl text-[#1c1714] leading-tight">
+          <h3
+            className="font-fraunces font-bold text-xl leading-tight"
+            style={{ color: titleColor }}
+          >
             {project.title}
           </h3>
         </div>
 
-        <p className="font-jakarta text-sm text-[#7a6f68] leading-relaxed mb-5">
+        <p className="font-jakarta text-sm leading-relaxed mb-5" style={{ color: descColor }}>
           {project.description}
         </p>
 
@@ -139,7 +174,8 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="font-silkscreen text-[9px] tracking-wider px-2.5 py-1 rounded-md bg-[#1c1714]/[0.06] text-[#4a4238]"
+              className="font-silkscreen text-[9px] tracking-wider px-2.5 py-1 rounded-md"
+              style={{ background: tagBg, color: tagText }}
             >
               {tech}
             </span>
@@ -148,18 +184,24 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
 
         {/* Links */}
         {project.links.length > 0 && (
-          <div className="flex gap-4 border-t border-[#1c1714]/[0.08] pt-4">
+          <div
+            className="flex gap-4 pt-4"
+            style={{ borderTop: `1px solid ${divider}` }}
+          >
             {project.links.map((link) => (
               <motion.a
                 key={link.href}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 font-jakarta text-sm font-medium text-[#0d7f60]"
+                className="flex items-center gap-1.5 font-jakarta text-sm font-medium"
+                style={{ color: linkColor }}
                 whileHover={{ x: 3 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                {link.icon === "github" ? <FiGithub className="w-4 h-4" /> : <FiExternalLink className="w-4 h-4" />}
+                {link.icon === "github"
+                  ? <FiGithub className="w-4 h-4" />
+                  : <FiExternalLink className="w-4 h-4" />}
                 {link.label} →
               </motion.a>
             ))}
@@ -171,6 +213,8 @@ function OSProjectCard({ project, delay }: { project: Project; delay: number }) 
 }
 
 export default function Projects() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [p01, p02, p03, p04, p05] = projects;
@@ -188,8 +232,14 @@ export default function Projects() {
             className="flex items-center gap-4 mb-4"
           >
             <span className="section-label">What I&apos;ve Built</span>
-            <div className="flex-1 h-px bg-[#ddd0c0]" />
-            <span className="font-silkscreen text-[9px] text-[#bdb0a0] tracking-wider">
+            <div
+              className="flex-1 h-px"
+              style={{ background: isDark ? "rgba(255,255,255,0.08)" : "#ddd0c0" }}
+            />
+            <span
+              className="font-silkscreen text-[9px] tracking-wider"
+              style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#bdb0a0" }}
+            >
               {projects.length} PROJECTS
             </span>
           </motion.div>
@@ -200,9 +250,9 @@ export default function Projects() {
               text="Shipped."
               fontSize="clamp(2rem, 5vw, 4.5rem)"
               className="font-fraunces font-black leading-[1.05] tracking-tight"
-              baseColor="#1c1714"
-              accentColor="#0d7f60"
-              backgroundColor="#F6F0E4"
+              baseColor={isDark ? "#e8e2f4" : "#1c1714"}
+              accentColor={isDark ? "#4ecba8" : "#0d7f60"}
+              backgroundColor={isDark ? "#121216" : "#F6F0E4"}
               initialHidden={true}
             />
           </h2>
@@ -210,15 +260,15 @@ export default function Projects() {
 
         {/* Row 1: featured (wide) + card */}
         <div className="grid md:grid-cols-[2fr_1fr] gap-5 mb-5">
-          <OSProjectCard project={p01} delay={0.1} />
-          <OSProjectCard project={p02} delay={0.2} />
+          <OSProjectCard project={p01} delay={0.1} isDark={isDark} />
+          <OSProjectCard project={p02} delay={0.2} isDark={isDark} />
         </div>
 
         {/* Row 2: three cards */}
         <div className="grid md:grid-cols-3 gap-5">
-          <OSProjectCard project={p03} delay={0.3} />
-          <OSProjectCard project={p04} delay={0.4} />
-          <OSProjectCard project={p05} delay={0.5} />
+          <OSProjectCard project={p03} delay={0.3} isDark={isDark} />
+          <OSProjectCard project={p04} delay={0.4} isDark={isDark} />
+          <OSProjectCard project={p05} delay={0.5} isDark={isDark} />
         </div>
       </div>
     </section>

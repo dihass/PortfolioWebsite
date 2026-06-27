@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import InteractiveWord from "@/components/ui/InteractiveWord";
+import { useTheme } from "@/components/ui/ThemeProvider";
 
 /* ─ Ticker ──────────────────────────────────────────────────────────────────── */
 
@@ -186,6 +187,8 @@ function BlinkCursor() {
 /* ─ Main component ──────────────────────────────────────────────────────────── */
 
 export default function Skills() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -248,7 +251,7 @@ export default function Skills() {
             className="flex items-center gap-4 mb-4"
           >
             <span className="section-label">What I Know</span>
-            <div className="flex-1 h-px bg-[#ddd0c0]" />
+            <div className="flex-1 h-px" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "#ddd0c0" }} />
           </motion.div>
           <h2 aria-label="Arsenal.">
             <InteractiveWord
@@ -256,9 +259,9 @@ export default function Skills() {
               text="Arsenal."
               fontSize="clamp(2rem, 5vw, 4.5rem)"
               className="font-fraunces font-black leading-[1.05] tracking-tight"
-              baseColor="#1c1714"
-              accentColor="#0d7f60"
-              backgroundColor="#f0e9de"
+              baseColor={isDark ? "#e8e2f4" : "#1c1714"}
+              accentColor={isDark ? "#4ecba8" : "#0d7f60"}
+              backgroundColor={isDark ? "#121216" : "#f0e9de"}
               initialHidden={true}
             />
           </h2>
@@ -488,16 +491,25 @@ export default function Skills() {
           initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.65 }}
-          className="rounded-2xl border border-[#ddd0c0] p-5"
+          className="rounded-2xl p-5"
+          style={{ border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "#ddd0c0"}` }}
         >
-          <p className="font-silkscreen text-[9px] tracking-widest text-[#bdb0a0] uppercase mb-3">
+          <p
+            className="font-silkscreen text-[9px] tracking-widest uppercase mb-3"
+            style={{ color: isDark ? "rgba(255,255,255,0.25)" : "#bdb0a0" }}
+          >
             Core Competencies
           </p>
           <div className="flex flex-wrap gap-1.5">
             {COMPETENCIES.map(c => (
               <span
                 key={c}
-                className="font-jakarta text-sm text-[#4a4238] px-3 py-1 bg-[#f0e9de] rounded-lg border border-[#ddd0c0]"
+                className="font-jakarta text-sm px-3 py-1 rounded-lg"
+                style={{
+                  background: isDark ? "rgba(255,255,255,0.05)" : "#f0e9de",
+                  border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "#ddd0c0"}`,
+                  color: isDark ? "#8888aa" : "#4a4238",
+                }}
               >
                 {c}
               </span>
@@ -508,12 +520,22 @@ export default function Skills() {
       </div>
 
       {/* Ticker */}
-      <div className="mt-10 border-y border-[#ddd0c0] overflow-hidden py-2.5">
+      <div
+        className="mt-10 overflow-hidden py-2.5"
+        style={{
+          borderTop:    `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "#ddd0c0"}`,
+          borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "#ddd0c0"}`,
+        }}
+      >
         <div className="flex">
           <div className="animate-ticker-right flex whitespace-nowrap gap-0">
             {[...TICKER_ROW, ...TICKER_ROW, ...TICKER_ROW, ...TICKER_ROW].map((item, i) => (
-              <span key={i} className="font-silkscreen text-[9px] tracking-widest text-[#bdb0a0] mx-6">
-                {item} <span className="text-[#9fead3]">✦</span>
+              <span
+                key={i}
+                className="font-silkscreen text-[9px] tracking-widest mx-6"
+                style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#bdb0a0" }}
+              >
+                {item} <span style={{ color: "#4ecba8" }}>✦</span>
               </span>
             ))}
           </div>

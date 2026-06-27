@@ -604,6 +604,147 @@ body::after {
   100% { filter: none; }
 }
 
+/* ── Astronaut mascot — dark mode overrides ─────────────────────── */
+
+/* In dark mode only the AstronautFigure is rendered, so these
+   tw-* overrides target astronaut elements without any conflict. */
+html.dark .code-mascot .tw-fold-left,
+html.dark .code-mascot .tw-fold-right {
+  fill: #bccfe8;
+  stroke: #7a90b8;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 0 rgba(0, 10, 30, 0.22));
+}
+
+html.dark .code-mascot .tw-orbit-dot {
+  stroke: #020410;
+}
+
+html.dark .code-mascot .tw-shadow-foot {
+  stroke: #2a3a5a;
+  stroke-width: 4;
+  opacity: 0.48;
+}
+
+html.dark .code-mascot .cm-compile-ui rect {
+  fill: #060e1e;
+  stroke: #4ecba8;
+  stroke-width: 2;
+}
+
+html.dark .code-mascot .cm-compile-ui path {
+  stroke: #4ecba8;
+}
+
+/* Astronaut SVG shape classes */
+.as-helmet-shell {
+  fill: #dce8fa;
+  stroke: #9ab0cc;
+  stroke-width: 2;
+}
+
+.as-visor-frame {
+  fill: none;
+  stroke: #4ecba8;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(78, 203, 168, 0.62));
+}
+
+.as-visor-glass {
+  fill: #050d1a;
+}
+
+.as-visor-shine {
+  fill: white;
+  fill-opacity: 0.13;
+}
+
+.as-collar-ring {
+  fill: #6e82aa;
+  stroke: #505a7a;
+  stroke-width: 1;
+}
+
+.as-helmet-rib {
+  fill: none;
+  stroke: #9ab0cc;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.52;
+}
+
+.as-antenna-stick {
+  stroke: #9ab0cc;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.as-antenna-tip {
+  fill: #4ecba8;
+  stroke: #26a87e;
+  stroke-width: 1;
+  filter: drop-shadow(0 0 6px rgba(78, 203, 168, 0.88));
+}
+
+.as-suit-body {
+  fill: #d6e2f4;
+  stroke: #9ab0cc;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.as-suit-rib {
+  fill: none;
+  stroke: #9ab0cc;
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.42;
+}
+
+.as-chest-panel {
+  fill: #060e1e;
+  stroke: #1a2844;
+  stroke-width: 1;
+}
+
+.as-panel-light-g { fill: #4ecba8; }
+.as-panel-light-y { fill: #f9c840; }
+.as-panel-light-r { fill: #ff5f5f; }
+
+.as-panel-bar {
+  fill: #4ecba8;
+  fill-opacity: 0.38;
+}
+
+.as-shoulder-joint {
+  fill: #8092b2;
+  stroke: #5e72a0;
+  stroke-width: 1;
+}
+
+.as-arm {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.as-glove {
+  fill: #374a6a;
+  stroke: #4e6090;
+  stroke-width: 1.5;
+}
+
+.as-boot {
+  fill: #374a6a;
+  stroke: #4e6090;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.as-visor-star {
+  fill: white;
+  fill-opacity: 0.38;
+}
+
 /* Subtle bounce */
 @keyframes bounce-subtle {
   0%, 100% { transform: translateY(0); }
@@ -642,4 +783,153 @@ body::after {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ===== VIEW TRANSITION — circular reveal from lightbulb ===== */
+
+/*
+ * --vt-x / --vt-y are set by LightBulb.tsx before calling startViewTransition.
+ * Old state stays frozen underneath; new state clips in as an expanding circle.
+ */
+
+@keyframes vt-circle-reveal {
+  from { clip-path: circle(0px at var(--vt-x, 90%) var(--vt-y, 0%)); }
+  to   { clip-path: circle(200vmax at var(--vt-x, 90%) var(--vt-y, 0%)); }
+}
+
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  animation: vt-circle-reveal 2s cubic-bezier(0.22, 0.68, 0.36, 1) both;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ===== NIGHT SKY ANIMATIONS ===== */
+
+@keyframes ns-star-twinkle {
+  0%, 100% { opacity: 1;    transform: scale(1);   }
+  50%       { opacity: 0.1; transform: scale(0.4); }
+}
+
+/* Comet travel — inner div only; outer wrapper holds the rotation (50–130°).
+   At those angles the local X axis points downward, so translateX(positive → negative)
+   moves the comet from the bottom toward the top of the screen. */
+@keyframes ns-comet-travel {
+  0%, 52%  { transform: translateX(60px);   opacity: 0; }
+  56%       { opacity: 0.55; }
+  78%       { opacity: 0.35; }
+  84%       { transform: translateX(-140vw); opacity: 0; }
+  100%      { transform: translateX(-140vw); opacity: 0; }
+}
+
+/* Nebula breath — slow inhale/exhale of a glow region */
+@keyframes ns-nebula-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1);    }
+  50%       { opacity: 1;   transform: scale(1.06); }
+}
+
+/* Pulsar — a single star that periodically flares */
+@keyframes ns-pulsar {
+  0%, 88%, 100% { opacity: 0.55; box-shadow: 0 0 3px 1px rgba(180,240,255,0.3); }
+  92%            { opacity: 1;   box-shadow: 0 0 10px 5px rgba(180,240,255,0.9), 0 0 24px 12px rgba(100,200,255,0.4); }
+}
+
+/* ===== DARK MODE ===== */
+
+html.dark { color-scheme: dark; }
+
+/* Smooth transitions on theme switch */
+body, section, main, footer, header,
+.bg-cream, .os-window, .os-window-bar {
+  transition:
+    background-color 0.55s ease,
+    color            0.45s ease,
+    border-color     0.45s ease,
+    box-shadow       0.45s ease;
+}
+
+/* ── Body ── */
+html.dark body {
+  background-color: transparent;
+  background-image: none;
+  color: #f0ece5;
+}
+html.dark body::before,
+html.dark body::after { display: none; }
+
+/* ── Sections — fully transparent so NightSky shows through unobstructed ── */
+html.dark main,
+html.dark section,
+html.dark footer {
+  position: relative;
+  z-index: 1;
+}
+html.dark main,
+html.dark section,
+html.dark .bg-cream { background-color: transparent !important; }
+html.dark footer    { background-color: rgba(6, 6, 15, 0.60) !important; }
+
+/* Kill the grid in dark mode — it fights the starfield */
+html.dark .bg-grid {
+  background-image: none !important;
+}
+
+/* ── Text — off-white & warm for dark backgrounds ── */
+html.dark body                 { color: #f0ece5; }
+html.dark .text-\[\#1c1714\]  { color: #f0ece5  !important; } /* primary → warm off-white   */
+html.dark .text-\[\#7a6f68\]  { color: #9a9aaa  !important; } /* muted   → cool mid-gray    */
+html.dark .text-\[\#bdb0a0\]  { color: #606070  !important; } /* faint   → dimmer gray      */
+html.dark .text-\[\#0d7f60\]  { color: #4ecba8  !important; } /* mint    → lighter mint     */
+html.dark .text-\[\#7a4800\]  { color: #e0a840  !important; } /* amber   → warm gold        */
+html.dark .text-\[\#3440c0\]  { color: #8898e8  !important; } /* indigo  → lighter violet   */
+html.dark .section-label       { color: #4ecba8; }
+
+/* ── Borders ── */
+html.dark .border-\[\#1c1714\] { border-color: #2a2a2a !important; }
+html.dark .border-\[\#ddd0c0\] { border-color: #222222 !important; }
+
+/* ── Small badge backgrounds ── */
+html.dark .bg-\[\#c8f5e5\]  { background-color: rgba(13, 127, 96, 0.2)  !important; }
+html.dark .bg-\[\#dce4ff\]  { background-color: rgba(52, 64, 192, 0.2)  !important; }
+html.dark .bg-\[\#fef8e0\]  { background-color: rgba(255,255,255,0.06)  !important; }
+html.dark .bg-\[\#1c1714\]  { background-color: #0a0a0a                 !important; }
+
+/* ── OS-window chrome ── */
+html.dark .os-window     { background: #0a0a0a; border-color: #1e1e1e; box-shadow: 0 4px 24px rgba(0,0,0,0.8); }
+html.dark .os-window-bar { background: #111111; border-bottom-color: #1e1e1e; }
+html.dark .os-window-title { color: #444455; }
+
+/* ── Scrollbar ── */
+html.dark ::-webkit-scrollbar-track { background: #121216; }
+html.dark ::-webkit-scrollbar-thumb { background: #222222; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #4ecba8; }
+
+/* ── Selection ── */
+html.dark ::selection {
+  background: rgba(78, 203, 168, 0.28);
+  color: #f0ece5;
+}
+
+/* ── InteractiveWord fallback text (mobile / canvas-off) ── */
+html.dark .interactive-word-fallback { color: rgba(232, 226, 244, 0.3); }
+@media (max-width: 767px) {
+  html.dark .interactive-word-fallback { color: #e8e2f4; }
+}
+
+/* InteractiveWord — no glow in dark mode */
+html.dark .interactive-word { filter: none; }
+
+/* ── html base so the #121216 colour is visible before NightSky mounts ── */
+html.dark {
+  background-color: #000000;
 }

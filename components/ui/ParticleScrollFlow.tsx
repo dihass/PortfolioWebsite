@@ -2,16 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import { getParticle } from "./particleRegistry";
+import { useTheme } from "./ThemeProvider";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const TARGET_COUNT = 1100;
 
 type RGB = [number, number, number];
-const C_DARK:   RGB = [28,  23,  20];
-const C_MINT:   RGB = [159, 234, 211];
-const C_GOLD:   RGB = [249, 200, 64];
-const C_ACCENT: RGB = [13,  127, 96];
+// C_DARK and C_ACCENT are theme-dependent; see isDarkRef usage in render
+const C_MINT: RGB = [159, 234, 211];
+const C_GOLD: RGB = [249, 200, 64];
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -35,12 +35,12 @@ const qb    = (a: number, c: number, b: number, t: number) => {
   return s * s * a + 2 * s * t * c + t * t * b;
 };
 
-function rgbAt(heat: number): string {
+function rgbAt(heat: number, cDark: RGB, cAccent: RGB): string {
   const t = clamp(heat, 0, 1);
   let r: RGB, g: RGB, lt: number;
-  if      (t < 0.45) { r = C_DARK;   g = C_MINT;   lt = t / 0.45; }
-  else if (t < 0.75) { r = C_MINT;   g = C_GOLD;   lt = (t - 0.45) / 0.30; }
-  else               { r = C_GOLD;   g = C_ACCENT;  lt = (t - 0.75) / 0.25; }
+  if      (t < 0.45) { r = cDark;  g = C_MINT;   lt = t / 0.45; }
+  else if (t < 0.75) { r = C_MINT; g = C_GOLD;   lt = (t - 0.45) / 0.30; }
+  else               { r = C_GOLD; g = cAccent;   lt = (t - 0.75) / 0.25; }
   return `rgb(${Math.round(lerp(r[0],g[0],lt))},${Math.round(lerp(r[1],g[1],lt))},${Math.round(lerp(r[2],g[2],lt))})`;
 }
 
@@ -84,6 +84,12 @@ const IDS = ["engineer", "shipped", "arsenal"] as const;
 
 export default function ParticleScrollFlow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
+  const isDarkRef = useRef(theme === "dark");
+
+  useEffect(() => {
+    isDarkRef.current = theme === "dark";
+  }, [theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -248,6 +254,11 @@ export default function ParticleScrollFlow() {
         ? clamp((ms.progress - 0.35) / 0.65, 0, 1)
         : 1;
 
+      // Theme-dependent palette — read once per frame
+      const isDark_  = isDarkRef.current;
+      const cDark_:   RGB = isDark_ ? [232, 226, 244] : [28,  23,  20];
+      const cAccent_: RGB = isDark_ ? [78,  203, 168] : [13,  127, 96];
+
       for (let i = 0; i < TARGET_COUNT; i++) {
         const ph = fromF.phase[i];
         // Per-particle staggered progress inside the morph window
@@ -275,14 +286,14 @@ export default function ParticleScrollFlow() {
         if (vx < -30 || vx > canvas.width  + 30) continue;
 
         // Heat: only ramps up AFTER particles have clearly started moving (pT > 0.15)
-        // This keeps particles looking dark/natural while still at source
+        // This keeps particles looking natural while still at source
         const heat = (isMorphing && pT > 0.15)
           ? Math.sin(clamp((pT - 0.15) / 0.85, 0, 1) * Math.PI)
           : 0;
 
         const r = fromF.size[i] * (1 + heat * 0.45);
 
-        ctx.fillStyle   = rgbAt(heat);
+        ctx.fillStyle   = rgbAt(heat, cDark_, cAccent_);
         ctx.globalAlpha = ms.canvasAlpha * (0.9 + heat * 0.1);
         ctx.beginPath();
         ctx.arc(vx, vy, r, 0, Math.PI * 2);

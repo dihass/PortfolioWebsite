@@ -56,6 +56,15 @@ export default function InteractiveWord({
   const rafRef          = useRef(0);
   const externalAlpha   = useRef(initialHidden ? 0 : 1);
 
+  // Mutable color refs — updated live so the render loop reacts without a particle rebuild
+  const baseRgbRef   = useRef(hexToRgb(baseColor));
+  const accentRgbRef = useRef(hexToRgb(accentColor));
+
+  useEffect(() => {
+    baseRgbRef.current   = hexToRgb(baseColor);
+    accentRgbRef.current = hexToRgb(accentColor);
+  }, [baseColor, accentColor]);
+
   useEffect(() => {
     const canvas   = canvasRef.current;
     const wrap     = wrapRef.current;
@@ -71,8 +80,8 @@ export default function InteractiveWord({
     // Apply initial hidden state to wrapper
     if (initialHidden) wrap.style.visibility = "hidden";
 
-    const baseRgb   = hexToRgb(baseColor);
-    const accentRgb = hexToRgb(accentColor);
+    const baseRgb   = hexToRgb(baseColor);   // used for initial build only
+    const accentRgb = hexToRgb(accentColor); // live updates come through the refs above
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     let width = 1, height = 1, dpr = 1;
 
@@ -212,7 +221,7 @@ export default function InteractiveWord({
           particles.x[i]  += particles.vx[i];
           particles.y[i]  += particles.vy[i];
 
-          ctx.fillStyle  = lerpColor(baseRgb, accentRgb, heat);
+          ctx.fillStyle  = lerpColor(baseRgbRef.current, accentRgbRef.current, heat);
           ctx.globalAlpha = ea * (0.9 + heat * 0.1);
           ctx.beginPath();
           ctx.arc(
@@ -255,7 +264,7 @@ export default function InteractiveWord({
       if (particleId) unregisterParticle(particleId);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accentColor, backgroundColor, baseColor, fontFamily, text, particleId, initialHidden]);
+  }, [fontFamily, text, particleId, initialHidden]);
 
   return (
     <div
