@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { flushSync } from "react-dom";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
@@ -50,7 +50,11 @@ export default function LightBulb() {
   const bulbWrapRef  = useRef<HTMLDivElement>(null);
 
   const getBulbCenter = (): { x: number; y: number } => {
-    if (!bulbWrapRef.current) return { x: window.innerWidth - 40, y: 72 };
+    if (!bulbWrapRef.current) {
+      const isMobile = window.innerWidth < 768;
+      return { x: isMobile ? window.innerWidth / 2 : window.innerWidth - 40, y: 72 };
+    }
+
     const r = bulbWrapRef.current.getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   };
@@ -119,7 +123,7 @@ export default function LightBulb() {
 
   return (
     <div
-      className="fixed top-0 right-10 z-[9998] select-none"
+      className="absolute top-0 left-1/2 z-[9998] -translate-x-1/2 select-none md:fixed md:left-auto md:right-10 md:translate-x-0"
       style={{ width: 50, height: MOUNT_H + CORD_BASE + 130, touchAction: "none" }}
     >
       {/* Ceiling bracket */}
