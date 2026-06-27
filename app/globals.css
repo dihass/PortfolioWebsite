@@ -97,6 +97,10 @@ body::after {
   background: linear-gradient(90deg, #30e895, #70ffbf 15%, #fdbe3f, #ea5e3e, #f42578 75%, #3c5fdd);
 }
 
+html.dark .rainbow-bar {
+  display: none;
+}
+
 /* OS Window — vibecoding.to Mac window chrome */
 .os-window {
   background: #F6F0E4;

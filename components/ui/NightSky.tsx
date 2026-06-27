@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -16,92 +16,6 @@ type Comet = {
   id: number; startX: number; startY: number;
   delay: number; dur: number; length: number; angle: number;
 };
-
-// ── Aurora canvas ─────────────────────────────────────────────────────────────
-//
-// Three sine-wave ribbons of colour sweep across the top of the screen,
-// slowly shifting phase — the classic northern-lights undulation.
-
-const AURORA_BANDS = [
-  { rgb: [0, 210, 165]  as [number,number,number], speed: 0.00028, phase: 0,    yFrac: 0.13, amp: 0.065, spread: 0.30 },
-  { rgb: [110, 40, 250] as [number,number,number], speed: 0.00019, phase: 2.09, yFrac: 0.07, amp: 0.045, spread: 0.26 },
-  { rgb: [14, 130, 235] as [number,number,number], speed: 0.00023, phase: 4.71, yFrac: 0.20, amp: 0.055, spread: 0.22 },
-];
-
-function AuroraCanvas({ active }: { active: boolean }) {
-  const ref = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (!active) return;
-    const canvas = ref.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
-
-    let raf = 0;
-    let alive = true;
-
-    const resize = () => {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize, { passive: true });
-
-    const draw = (now: number) => {
-      if (!alive) return;
-      const W = canvas.width;
-      const H = canvas.height;
-      ctx.clearRect(0, 0, W, H);
-
-      for (const b of AURORA_BANDS) {
-        const [r, g, bl] = b.rgb;
-        const pts = 14;
-        ctx.beginPath();
-
-        for (let i = 0; i <= pts; i++) {
-          const t = i / pts;
-          const x = t * W;
-          const y =
-            b.yFrac * H +
-            Math.sin(now * b.speed + b.phase + t * 5.8) * b.amp * H +
-            Math.sin(now * b.speed * 2.3 + b.phase + t * 3.1) * b.amp * 0.38 * H;
-          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-
-        ctx.lineTo(W, 0);
-        ctx.lineTo(0, 0);
-        ctx.closePath();
-
-        const yPeak = b.yFrac * H;
-        const grad  = ctx.createLinearGradient(0, yPeak - b.amp * H, 0, yPeak + b.spread * H);
-        grad.addColorStop(0,    `rgba(${r},${g},${bl},0)`);
-        grad.addColorStop(0.18, `rgba(${r},${g},${bl},0.13)`);
-        grad.addColorStop(0.55, `rgba(${r},${g},${bl},0.06)`);
-        grad.addColorStop(1,    `rgba(${r},${g},${bl},0)`);
-        ctx.fillStyle = grad;
-        ctx.fill();
-      }
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    raf = requestAnimationFrame(draw);
-    return () => {
-      alive = false;
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-    };
-  }, [active]);
-
-  return (
-    <canvas
-      ref={ref}
-      aria-hidden
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
-    />
-  );
-}
 
 // ── Nebula blobs ──────────────────────────────────────────────────────────────
 
@@ -238,9 +152,6 @@ export default function NightSky() {
         ].join(","),
       }}
     >
-      {/* Aurora ribbons — canvas-rendered, animated */}
-      <AuroraCanvas active={isDark} />
-
       {/* Nebula clouds */}
       {NEBULAE.map((n, i) => (
         <div
