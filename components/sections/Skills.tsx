@@ -8,9 +8,9 @@ import { useTheme } from "@/components/ui/ThemeProvider";
 /* ─ Ticker ──────────────────────────────────────────────────────────────────── */
 
 const TICKER_ROW = [
-  "JAVA", "PYTHON", "JAVASCRIPT", "TYPESCRIPT", "SWIFT", "SQL", "C#", ".NET", "ASP.NET",
-  "REACT", "NEXT.JS", "NODE.JS", "PYTORCH", "TAILWIND", "MONGODB",
-  "POSTGRESQL", "DOCKER", "GIT", "VERCEL", "REST APIS", "AGILE",
+  "JAVA", "PL/SQL", "JAVASCRIPT", "TYPESCRIPT", "PYTHON", "C#", "SQL", "HTML", "CSS",
+  "ORACLE DB", "REACT", "NEXT.JS", "NODE.JS", ".NET", "SIGNALR", "PYTORCH",
+  "REDIS", "DOCKER", "GIT", "CI/CD", "REST APIS", "AGILE",
 ];
 
 /* ─ npm ls data ─────────────────────────────────────────────────────────────── */
@@ -28,6 +28,7 @@ const GROUPS: PkgGroup[] = [
       { name: "nodejs",       version: "^20.0.0",  desc: "js runtime"      },
       { name: "typescript",   version: "^5.0.0",   desc: "type safety"     },
       { name: "tailwindcss",  version: "^3.4.0",   desc: "utility css"     },
+      { name: "rest-apis",    version: "json/soap", desc: "integration"    },
     ],
   },
   {
@@ -35,9 +36,10 @@ const GROUPS: PkgGroup[] = [
     color: "#f9c840",
     pkgs: [
       { name: "java",         version: "SE-21",    desc: "enterprise"      },
+      { name: "plsql",        version: "oracle",   desc: "erp backend"     },
       { name: "python",       version: "3.11.0",   desc: "data & ai"       },
       { name: "javascript",   version: "ES2024",   desc: "web scripting"   },
-      { name: "swift",        version: "5.9.0",    desc: "ios / macos"     },
+      { name: "csharp",       version: "12.0.0",   desc: "dotnet language" },
       { name: "sql",          version: "ISO-2023", desc: "querying"        },
     ],
   },
@@ -45,9 +47,10 @@ const GROUPS: PkgGroup[] = [
     group: "backend",
     color: "#a78bfa",
     pkgs: [
-      { name: "csharp",       version: "12.0.0",   desc: "dotnet language" },
       { name: "dotnet",       version: "8.0.0",    desc: "microsoft clr"   },
       { name: "aspnet-core",  version: "8.0.0",    desc: "web api / mvc"   },
+      { name: "signalr",      version: "realtime", desc: "live gameplay"   },
+      { name: "oracle-db",    version: "19c+",     desc: "enterprise data" },
     ],
   },
   {
@@ -63,9 +66,20 @@ const GROUPS: PkgGroup[] = [
     pkgs: [
       { name: "docker",       version: "25.0.0",   desc: "containers"      },
       { name: "git",          version: "2.43.0",   desc: "version control" },
+      { name: "github-actions", version: "ci",      desc: "pipelines"      },
       { name: "postgresql",   version: "16.0.0",   desc: "sql database"    },
       { name: "mongodb",      version: "7.0.0",    desc: "nosql"           },
+      { name: "redis",        version: "7.0.0",    desc: "state/cache"     },
       { name: "vercel",       version: "latest",   desc: "deployment"      },
+    ],
+  },
+  {
+    group: "testing",
+    color: "#ffb8d0",
+    pkgs: [
+      { name: "unit-tests",        version: "coverage", desc: "quality"    },
+      { name: "integration-tests", version: "flows",    desc: "contracts"  },
+      { name: "tar-automation",    version: "ifs",      desc: "validation" },
     ],
   },
 ];
@@ -84,7 +98,7 @@ const ASCII_ART = [
   "│   ██████╔╝██║██║  ██║██║  ██║███████║     │",
   "│   ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝    │",
   "│                                             │",
-  "│   full stack engineer  ·  founder           │",
+  "│   software engineer  ·  first class grad    │",
   "│   darvincode  ·  colombo, sri lanka         │",
   "│                                             │",
   "╰─────────────────────────────────────────────╯",
@@ -127,8 +141,8 @@ function processCmd(raw: string): OutLine[] | "clear" {
   if (cmd === "whoami") return [
     { text: "dihas sathnindu",                               color: "#f9f5ef" },
     { text: "" },
-    { text: "  role    software engineer · founder",         color: "rgba(255,255,255,0.35)" },
-    { text: "  edu     westminster / iit colombo",           color: "rgba(255,255,255,0.35)" },
+    { text: "  role    software engineer · darvincode founder", color: "rgba(255,255,255,0.35)" },
+    { text: "  edu     first class · westminster / iit",     color: "rgba(255,255,255,0.35)" },
     { text: "  work    ifs — enterprise software intern",    color: "rgba(255,255,255,0.35)" },
     { text: "  based   colombo, sri lanka",                  color: "rgba(255,255,255,0.35)" },
   ];
@@ -136,8 +150,8 @@ function processCmd(raw: string): OutLine[] | "clear" {
   if (cmd === "cat readme.txt") return [
     { text: "hi there! 👋",                                  color: "#f9f5ef" },
     { text: "" },
-    { text: "  i'm dihas — a full stack engineer",           color: "rgba(255,255,255,0.42)" },
-    { text: "  who builds things that actually ship.",       color: "rgba(255,255,255,0.42)" },
+    { text: "  i'm dihas — a first class cs graduate",       color: "rgba(255,255,255,0.42)" },
+    { text: "  building enterprise, backend, ai, and realtime systems.", color: "rgba(255,255,255,0.42)" },
     { text: "" },
     { text: "  → dihas.sathnindu@gmail.com",                color: "#9fead3" },
     { text: "  → github.com/dihass",                        color: "#9fead3" },
@@ -152,8 +166,9 @@ function processCmd(raw: string): OutLine[] | "clear" {
 /* ─ Competencies ────────────────────────────────────────────────────────────── */
 
 const COMPETENCIES = [
-  "System Design", "OOP", "Agile / Scrum", "Auth & AuthZ",
-  "Microservices", "Performance Optimisation", "Test Automation", "CI/CD",
+  "System Design", "OOP", "Design Patterns", "SDLC",
+  "Agile / Scrum", "Code Review", "Technical Documentation", "Security",
+  "Performance Optimisation", "Test Automation", "CI/CD", "Knowledge Sharing",
 ];
 
 /* ─ Sub-components ──────────────────────────────────────────────────────────── */

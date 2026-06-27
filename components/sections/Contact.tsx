@@ -6,7 +6,7 @@ import { FiGithub, FiLinkedin, FiMail, FiDownload } from "react-icons/fi";
 
 const links = [
   { label: "GitHub",   href: "https://github.com/dihass",                              Icon: FiGithub,   bg: "#2d333b", hover: "#444c56" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/dihas-sathnindu-785060258/", Icon: FiLinkedin, bg: "#0077b5", hover: "#006097" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/dihas-sathnindu",           Icon: FiLinkedin, bg: "#0077b5", hover: "#006097" },
   { label: "Email",    href: "mailto:dihas.sathnindu@gmail.com",                        Icon: FiMail,     bg: "#e30057", hover: "#bf004a" },
   { label: "Resume",   href: "/resume.pdf",                                             Icon: FiDownload, bg: "#0d7f60", hover: "#0a6650" },
 ];
@@ -95,7 +95,7 @@ export default function Contact() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="font-jakarta text-lg text-[#7a6f68] max-w-md mx-auto mb-12"
         >
-          Looking for a junior engineer who actually ships? I&apos;m open to roles, freelance projects, and interesting conversations.
+          Looking for a software engineer who can move across backend, full-stack, real-time, and AI systems? I&apos;m open to roles, freelance projects, and interesting conversations.
         </motion.p>
 
         {/* Email — Silkscreen large */}

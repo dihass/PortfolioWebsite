@@ -30,12 +30,12 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.svg" },
   title: "Dihas Sathnindu — Software Engineer",
   description:
-    "Software Engineer specialising in full-stack systems, backend optimisation, and mobile development. Open to junior SWE roles.",
+    "First Class Computer Science graduate and Software Engineer specialising in enterprise systems, backend optimisation, real-time platforms, and AI research.",
   robots: { index: true, follow: true },
   openGraph: {
     title: "Dihas Sathnindu — Software Engineer",
     description:
-      "Software Engineer specialising in full-stack systems, backend optimisation, and mobile development.",
+      "First Class Computer Science graduate specialising in enterprise systems, backend optimisation, real-time platforms, and AI research.",
     type: "website",
     url: "https://dihassathnindu.com",
     siteName: "Dihas Sathnindu",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Dihas Sathnindu — Software Engineer",
-    description: "Software Engineer. Full stack, mobile, AI research.",
+    description: "First Class CS graduate. Enterprise, backend, real-time, and AI systems.",
   },
   alternates: {
     canonical: "https://dihassathnindu.com",

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
-import { BsActivity, BsStar, BsHouseDoor, BsPinMap, BsPhone } from "react-icons/bs";
+import { BsActivity, BsDice5, BsStar, BsHouseDoor, BsPinMap, BsPhone } from "react-icons/bs";
 import type { IconType } from "react-icons";
 import InteractiveWord from "@/components/ui/InteractiveWord";
 import { useTheme } from "@/components/ui/ThemeProvider";
@@ -37,14 +37,30 @@ const projects: Project[] = [
     windowTitle: "sepsis-detection.py",
     accentBar:  "#c8d4ff",
     accentBody: "#d8e0ff",
-    darkBar:  "#0c0c20",
-    darkBody: "#08081a",
+    darkBar:  "#10133a",
+    darkBody: "#090b24",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/LF-MSP", icon: "github" }],
     wide: true,
   },
   {
     number: "02",
+    title: "Omi Game Engine",
+    description:
+      "Real-time multiplayer Omi card game platform with a server-authoritative .NET 10 backend, SignalR live gameplay, Redis-backed lobby/session state, JWT auth, reconnect handling, and full rule enforcement for trump, follow-suit, tricks, scoring, and dealer rotation.",
+    stack: [".NET 10", "C#", "SignalR", "Redis", "JWT", "React", "Vite", "Docker"],
+    badge: "Card Game · Live",
+    BadgeIcon: BsDice5,
+    windowTitle: "omi-game-engine.cs",
+    accentBar:  "#f9d840",
+    accentBody: "#fef09a",
+    darkBar:  "#2a2105",
+    darkBody: "#171304",
+    rotation: 1.5,
+    links: [{ label: "Live Demo", href: "https://omicardgame.vercel.app/", icon: "external" }],
+  },
+  {
+    number: "03",
     title: "The Seascape Sri Lanka",
     description:
       "Hospitality website for a real client — boutique coastal resort in Weligama Bay. Rooms, gallery, booking integrations, Framer Motion throughout.",
@@ -54,13 +70,13 @@ const projects: Project[] = [
     windowTitle: "seascape-client.tsx",
     accentBar:  "#a8f0d8",
     accentBody: "#c8f5e5",
-    darkBar:  "#001810",
-    darkBody: "#00100a",
-    rotation: 1.5,
+    darkBar:  "#083326",
+    darkBody: "#041d16",
+    rotation: -1,
     links: [],
   },
   {
-    number: "03",
+    number: "04",
     title: "PropVRty",
     description:
       "Real estate marketplace with immersive 360° virtual property tours — browse listings and walk through properties without leaving your browser.",
@@ -70,13 +86,13 @@ const projects: Project[] = [
     windowTitle: "propvrty-app.jsx",
     accentBar:  "#ffc0a8",
     accentBody: "#ffd8c4",
-    darkBar:  "#1a0800",
-    darkBody: "#120500",
+    darkBar:  "#3a130b",
+    darkBody: "#210905",
     rotation: -2,
     links: [{ label: "Live Demo", href: "https://prop-vr-ty.vercel.app/", icon: "external" }],
   },
   {
-    number: "04",
+    number: "05",
     title: "LocateLink",
     description:
       "Send a unique link — when opened, you instantly see their exact GPS location on an interactive map. Real-time via Upstash Redis.",
@@ -84,15 +100,15 @@ const projects: Project[] = [
     badge: "Utility · Private",
     BadgeIcon: BsPinMap,
     windowTitle: "locate-link.ts",
-    accentBar:  "#f9d840",
-    accentBody: "#fef09a",
-    darkBar:  "#1a1200",
-    darkBody: "#100c00",
+    accentBar:  "#dce4ff",
+    accentBody: "#e8edff",
+    darkBar:  "#18294a",
+    darkBody: "#0b172d",
     rotation: 1,
     links: [],
   },
   {
-    number: "05",
+    number: "06",
     title: "WeatherDashboard",
     description:
       "Native iOS app — real-time weather + interactive MapKit explorer of nearby tourist attractions, with local SwiftData persistence.",
@@ -102,8 +118,8 @@ const projects: Project[] = [
     windowTitle: "WeatherApp.swift",
     accentBar:  "#ffb8d0",
     accentBody: "#ffd0e4",
-    darkBar:  "#1a0010",
-    darkBody: "#10000a",
+    darkBar:  "#3a0d28",
+    darkBody: "#210717",
     rotation: -1.5,
     links: [{ label: "GitHub", href: "https://github.com/dihass/WeatherDashboard", icon: "github" }],
   },
@@ -217,7 +233,7 @@ export default function Projects() {
   const isDark = theme === "dark";
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [p01, p02, p03, p04, p05] = projects;
+  const [p01, p02, p03, p04, p05, p06] = projects;
 
   return (
     <section id="projects" ref={ref} className="py-24 relative overflow-hidden bg-cream bg-grid">
@@ -258,17 +274,18 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Row 1: featured (wide) + card */}
-        <div className="grid md:grid-cols-[2fr_1fr] gap-5 mb-5">
+        {/* Row 1: featured + flagship real-time platform */}
+        <div className="grid md:grid-cols-[2fr_1fr] gap-5 mb-5 items-start">
           <OSProjectCard project={p01} delay={0.1} isDark={isDark} />
           <OSProjectCard project={p02} delay={0.2} isDark={isDark} />
         </div>
 
-        {/* Row 2: three cards */}
-        <div className="grid md:grid-cols-3 gap-5">
+        {/* Row 2: supporting shipped work */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
           <OSProjectCard project={p03} delay={0.3} isDark={isDark} />
           <OSProjectCard project={p04} delay={0.4} isDark={isDark} />
           <OSProjectCard project={p05} delay={0.5} isDark={isDark} />
+          <OSProjectCard project={p06} delay={0.6} isDark={isDark} />
         </div>
       </div>
     </section>

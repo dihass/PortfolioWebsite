@@ -8,7 +8,7 @@ brand
 
 ## Users
 - Primary: Technical recruiters and hiring managers at software companies
-- Secondary: Engineers reviewing candidates for junior SWE roles
+- Secondary: Engineers reviewing candidates for software engineering roles
 - Tertiary: Potential collaborators, freelance clients
 
 ## Brand Voice

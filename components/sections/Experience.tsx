@@ -34,7 +34,7 @@ export default function Experience() {
     },
     {
       year: "2022 — 2026",
-      role: "BEng (Hons) Computer Science",
+      role: "BEng (Hons) Computer Science — First Class",
       org: "IIT / University of Westminster",
       location: "Colombo, Sri Lanka",
       type: "education",
@@ -46,6 +46,7 @@ export default function Experience() {
       accentColor: isDark ? "#e0a840" : "#7a4800",
       rotation: 1.5,
       points: [
+        "Graduated with First Class Honours",
         "FYP: Multimodal AI for early sepsis detection — AUROC 0.9283",
         "Modules: Distributed Systems, Security, Mobile Dev, AI & ML",
       ],

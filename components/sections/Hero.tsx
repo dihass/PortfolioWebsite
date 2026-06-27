@@ -12,8 +12,8 @@ import { useTheme } from "@/components/ui/ThemeProvider";
 const SOFTWARE_LETTERS = ["S", "o", "f", "t", "w", "a", "r", "e"];
 
 const STACK_TICKER = [
-  "NEXT.JS", "REACT", "NODE.JS", "TYPESCRIPT", "PYTHON", "SWIFT", "PYTORCH",
-  "POSTGRESQL", "DOCKER", "TAILWIND", "MONGODB", "JAVA",
+  "JAVA", "PL/SQL", "ORACLE DB", "NEXT.JS", "REACT", "NODE.JS", "TYPESCRIPT",
+  "PYTHON", "C#", ".NET", "SIGNALR", "REDIS", "PYTORCH", "DOCKER",
 ];
 
 type Sticker = { label: string; Icon: IconType; bg: string; text: string; rotation: number; top?: string; bottom?: string; left?: string; right?: string; animation: string };
@@ -36,7 +36,7 @@ export default function Hero() {
       text: isDark ? "#4ecba8" : "#0d7f60",
     },
     {
-      label: "DarvinCode founder", Icon: BsLightning, rotation: 5,
+      label: "First Class graduate", Icon: BsLightning, rotation: 5,
       top: "45%", right: "0%", animation: "animate-float-right",
       bg:   isDark ? "#1c0800" : "#ffd0bc",
       text: isDark ? "#ff9070" : "#8b3010",
@@ -137,7 +137,7 @@ export default function Hero() {
                 transition={{ duration: 0.8, delay: 1.2 }}
                 className="font-jakarta text-[1.05rem] text-[#7a6f68] leading-relaxed mb-8 max-w-lg"
               >
-                I build full-stack platforms, mobile apps, and AI research tools. Final year CS student at IIT/Westminster. Interned at IFS. Founder of DarvinCode. Open to junior SWE roles.
+                Computer Science graduate with First Class Honours from IIT / University of Westminster. Former Software Engineering Intern at IFS, founder of DarvinCode, and builder of enterprise, backend, real-time, and AI systems.
               </motion.p>
 
               {/* Tags row */}
@@ -152,10 +152,10 @@ export default function Hero() {
                   AVAILABLE NOW
                 </span>
                 <span className="font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#fef8e0] text-[#7a4800]">
-                  IFS INTERN 2024
+                  IFS INTERN 2024-25
                 </span>
                 <span className="font-silkscreen text-[9px] tracking-wider px-3 py-1.5 rounded-full bg-[#dce4ff] text-[#3440c0]">
-                  FYP · AI RESEARCH
+                  FIRST CLASS GRADUATE
                 </span>
               </motion.div>
 
@@ -245,10 +245,9 @@ export default function Hero() {
                     bottom: s.bottom,
                     left: s.left,
                     right: s.right,
-                    rotate: `${s.rotation}deg`,
                   }}
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.6, rotate: s.rotation }}
+                  animate={{ opacity: 1, scale: 1, rotate: s.rotation }}
                   transition={{ duration: 0.5, delay: 1.3 + i * 0.15, type: "spring", stiffness: 260 }}
                   whileHover={{ rotate: 0, scale: 1.08, zIndex: 10 }}
                 >
