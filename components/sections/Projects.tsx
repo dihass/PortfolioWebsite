@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
-import { BsActivity, BsDice5, BsStar, BsHouseDoor, BsPinMap, BsPhone } from "react-icons/bs";
+import { BsActivity, BsDice5, BsStar, BsHouseDoor, BsPhone } from "react-icons/bs";
 import type { IconType } from "react-icons";
 import InteractiveWord from "@/components/ui/InteractiveWord";
 import { useTheme } from "@/components/ui/ThemeProvider";
@@ -93,22 +93,6 @@ const projects: Project[] = [
   },
   {
     number: "05",
-    title: "LocateLink",
-    description:
-      "Send a unique link — when opened, you instantly see their exact GPS location on an interactive map. Real-time via Upstash Redis.",
-    stack: ["Next.js", "TypeScript", "Upstash Redis", "Leaflet"],
-    badge: "Utility · Private",
-    BadgeIcon: BsPinMap,
-    windowTitle: "locate-link.ts",
-    accentBar:  "#dce4ff",
-    accentBody: "#e8edff",
-    darkBar:  "#18294a",
-    darkBody: "#0b172d",
-    rotation: 1,
-    links: [],
-  },
-  {
-    number: "06",
     title: "WeatherDashboard",
     description:
       "Native iOS app — real-time weather + interactive MapKit explorer of nearby tourist attractions, with local SwiftData persistence.",
@@ -233,7 +217,7 @@ export default function Projects() {
   const isDark = theme === "dark";
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [p01, p02, p03, p04, p05, p06] = projects;
+  const [p01, p02, p03, p04, p05] = projects;
 
   return (
     <section id="projects" ref={ref} className="py-24 relative overflow-hidden bg-cream bg-grid">
@@ -274,18 +258,24 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Row 1: featured + flagship real-time platform */}
-        <div className="grid md:grid-cols-[2fr_1fr] gap-5 mb-5 items-start">
-          <OSProjectCard project={p01} delay={0.1} isDark={isDark} />
-          <OSProjectCard project={p02} delay={0.2} isDark={isDark} />
-        </div>
+        {/* Asymmetric desktop stack: WeatherDashboard anchors the left side below the feature card. */}
+        <div className="grid lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)] gap-5 items-start">
+          <div className="grid md:grid-cols-4 gap-5 items-start">
+            <div className="md:col-span-4">
+              <OSProjectCard project={p01} delay={0.1} isDark={isDark} />
+            </div>
+            <div className="md:col-span-2">
+              <OSProjectCard project={p05} delay={0.5} isDark={isDark} />
+            </div>
+            <div className="md:col-span-2">
+              <OSProjectCard project={p04} delay={0.4} isDark={isDark} />
+            </div>
+          </div>
 
-        {/* Row 2: supporting shipped work */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          <OSProjectCard project={p03} delay={0.3} isDark={isDark} />
-          <OSProjectCard project={p04} delay={0.4} isDark={isDark} />
-          <OSProjectCard project={p05} delay={0.5} isDark={isDark} />
-          <OSProjectCard project={p06} delay={0.6} isDark={isDark} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-5 lg:pt-10">
+            <OSProjectCard project={p02} delay={0.2} isDark={isDark} />
+            <OSProjectCard project={p03} delay={0.3} isDark={isDark} />
+          </div>
         </div>
       </div>
     </section>
