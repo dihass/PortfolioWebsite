@@ -52,7 +52,7 @@ export default function LightBulb() {
   const getBulbCenter = (): { x: number; y: number } => {
     if (!bulbWrapRef.current) {
       const isMobile = window.innerWidth < 768;
-      return { x: isMobile ? window.innerWidth / 2 : window.innerWidth - 40, y: 72 };
+      return { x: window.innerWidth - (isMobile ? 49 : 40), y: 72 };
     }
 
     const r = bulbWrapRef.current.getBoundingClientRect();
@@ -123,7 +123,7 @@ export default function LightBulb() {
 
   return (
     <div
-      className="absolute top-0 left-1/2 z-[9998] -translate-x-1/2 select-none md:fixed md:left-auto md:right-10 md:translate-x-0"
+      className="absolute top-0 right-6 z-[9998] select-none md:fixed md:right-10"
       style={{ width: 50, height: MOUNT_H + CORD_BASE + 130, touchAction: "none" }}
     >
       {/* Ceiling bracket */}
